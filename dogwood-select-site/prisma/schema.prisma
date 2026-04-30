@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id                Int         @id @default(autoincrement())
+  name              String
+  phone             String?
+  email             String
+  address           String?
+  serviceType       String
+  projectDescription String?
+  preferredTimeline String?
+  budgetRange       String?
+  referralName      String?
+  referralContact   String?
+  priority          String?
+  images            Image[]     @relation("LeadImages")
+  status            LeadStatus  @default(NEW)
+  createdAt         DateTime    @default(now())
+}
+
+model Booking {
+  id            Int      @id @default(autoincrement())
+  name          String
+  phone         String
+  email         String
+  address       String
+  projectType   String
+  preferredDate DateTime?
+  preferredTime String?
+  notes         String?
+  createdAt     DateTime @default(now())
+}
+
+model Referral {
+  id                Int      @id @default(autoincrement())
+  referrerName      String
+  referrerContact   String
+  referredName      String
+  referredContact   String
+  notes             String?
+  interestedRecurring Boolean
+  createdAt         DateTime @default(now())
+}
+
+model Image {
+  id     Int   @id @default(autoincrement())
+  url    String
+  leadId Int
+  lead   Lead  @relation("LeadImages", fields: [leadId], references: [id])
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  ESTIMATE_SCHEDULED
+  WON
+  LOST
+  FOLLOW_UP_LATER
+}
