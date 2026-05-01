@@ -5,14 +5,25 @@ import { sendNotification } from '@/lib/email';
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const {
-      referrerName,
-      referrerContact,
-      referredName,
-      referredContact,
-      notes,
-      interestedRecurring,
-    } = data;
+
+    const referrerName = String(data.referrerName || '').trim();
+    const referrerContact = String(data.referrerContact || '').trim();
+    const referredName = String(data.referredName || '').trim();
+    const referredContact = String(data.referredContact || '').trim();
+    const notes = data.notes ? String(data.notes).trim() : null;
+
+    if (!referrerName || !referrerContact || !referredName || !referredContact) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    const interestedRecurring =
+      data.interestedRecurring === true ||
+      data.interestedRecurring === 'true' ||
+      data.interestedRecurring === 'on';
+
     const referral = await prisma.referral.create({
       data: {
         referrerName,
@@ -20,16 +31,21 @@ export async function POST(request: Request) {
         referredName,
         referredContact,
         notes,
-        interestedRecurring: Boolean(interestedRecurring),
+        interestedRecurring,
       },
     });
+
     await sendNotification(
       'New Referral Submission',
       `A new referral was submitted by ${referrerName}.`
     );
+
     return NextResponse.json({ success: true, referralId: referral.id });
   } catch (err) {
-    console.error(err);
-    return new NextResponse('Error processing request', { status: 500 });
+    console.error('Referral submission failed:', err);
+    return NextResponse.json(
+      { success: false, error: 'Error processing referral request' },
+      { status: 500 }
+    );
   }
 }
