@@ -222,9 +222,9 @@ export default function ConsultationForm({}: ConsultationFormProps) {
             </label>
           </div>
           <div className="text-center pt-4">
-            <Button variant="primary" className="w-full md:w-auto" onClick={() => {}}>
-              {submitting ? 'Submitting...' : 'Submit'}
-            </Button>
+            <Button type="submit" variant="primary" className="w-full md:w-auto">
+            {submitting ? 'Submitting...' : 'Submit'}
+          </Button>
           </div>
         </form>
       </div>
