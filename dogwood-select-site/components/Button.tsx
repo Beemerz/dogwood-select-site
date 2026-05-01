@@ -4,6 +4,7 @@ interface ButtonProps {
   onClick?: () => void;
   variant?: 'primary' | 'secondary';
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export default function Button({
@@ -12,14 +13,19 @@ export default function Button({
   onClick,
   variant = 'primary',
   className = '',
+  type = 'button',
 }: ButtonProps) {
   const baseStyles =
     'inline-block px-6 py-3 rounded-full font-medium transition-colors duration-200';
-  const variants: Record<typeof variant, string> = {
+
+  const variants: Record<'primary' | 'secondary', string> = {
     primary: 'bg-dogwoodGreen text-ivory hover:bg-charcoal',
-    secondary: 'border border-dogwoodGreen text-dogwoodGreen hover:bg-dogwoodGreen hover:text-ivory',
+    secondary:
+      'border border-dogwoodGreen text-dogwoodGreen hover:bg-dogwoodGreen hover:text-ivory',
   };
+
   const classes = `${baseStyles} ${variants[variant]} ${className}`;
+
   if (href) {
     return (
       <a href={href} className={classes} onClick={onClick}>
@@ -27,8 +33,10 @@ export default function Button({
       </a>
     );
   }
+
   return (
-  <button type="submit" className={classes} onClick={onClick}>
-    {children}
-  </button>
-);
+    <button type={type} className={classes} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
