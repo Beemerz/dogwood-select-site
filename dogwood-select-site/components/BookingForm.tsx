@@ -97,9 +97,9 @@ export default function BookingForm() {
             <textarea id="notes" name="notes" rows={4} className="w-full border border-stoneGray rounded p-2" />
           </div>
           <div className="text-center pt-4">
-            <Button variant="primary" className="w-full md:w-auto">
-              {submitting ? 'Submitting...' : 'Submit'}
-            </Button>
+           <Button type="submit" variant="primary" className="w-full md:w-auto">
+            {submitting ? 'Submitting...' : 'Submit'}
+           </Button>
           </div>
         </form>
       </div>
