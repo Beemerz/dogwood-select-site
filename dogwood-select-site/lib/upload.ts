@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
 const s3 = new S3Client({
   region: 'auto', // R2 uses 'auto' region
@@ -17,7 +17,7 @@ const s3 = new S3Client({
 export async function uploadFiles(files: File[]): Promise<{ key: string; url: string }[]> {
   const results: { key: string; url: string }[] = [];
   for (const file of files) {
-    const key = `${uuidv4()}-${file.name}`;
+    const key = `${crypto.randomUUID()}-${file.name}`;
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const command = new PutObjectCommand({
