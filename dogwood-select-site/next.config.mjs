@@ -4,10 +4,6 @@ const nextConfig = {
   images: {
     domains: [],
   },
-  experimental: {
-    serverActions: true,
-  },
-  // Enable strict mode for React
   reactStrictMode: true,
 };
 
