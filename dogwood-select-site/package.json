@@ -19,7 +19,7 @@
     "tailwindcss": "4.1.10",
     "autoprefixer": "10.4.21",
     "postcss": "8.5.6",
-    "resend": "^0.23.0",
+    "resend": "^4.0.0",
     "@aws-sdk/client-s3": "3.470.0"
     ,
     "uuid": "^9.0.0"
