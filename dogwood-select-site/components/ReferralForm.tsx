@@ -58,11 +58,11 @@ export default function ReferralForm() {
               <input type="text" id="referrerContact" name="referrerContact" required className="w-full border border-stoneGray rounded p-2" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1" htmlFor="referredName">Friend's Name</label>
+              <label className="block text-sm font-medium mb-1" htmlFor="referredName">Friend&apos;s Name</label>
               <input type="text" id="referredName" name="referredName" required className="w-full border border-stoneGray rounded p-2" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1" htmlFor="referredContact">Friend's Phone/Email</label>
+              <label className="block text-sm font-medium mb-1" htmlFor="referredContact">Friend&apos;s Phone/Email</label>
               <input type="text" id="referredContact" name="referredContact" required className="w-full border border-stoneGray rounded p-2" />
             </div>
           </div>

@@ -1,33 +1,36 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sendCustomerConfirmation, sendNotification } from '@/lib/email';
 import { uploadFiles } from '@/lib/upload';
-import { sendNotification } from '@/lib/email';
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
-    const name = formData.get('name') as string;
-    const phone = formData.get('phone') as string | null;
-    const email = formData.get('email') as string;
-    const address = formData.get('address') as string | null;
-    const serviceType = formData.get('serviceType') as string;
-    const projectDescription = formData.get('projectDescription') as string | null;
-    const preferredTimeline = formData.get('preferredTimeline') as string | null;
-    const budgetRange = formData.get('budgetRange') as string | null;
-    const referralName = formData.get('referralName') as string | null;
-    const referralContact = formData.get('referralContact') as string | null;
-    const priority = formData.get('priority') as string | null;
-    // Collect uploaded files (could be multiple)
+    const name = String(formData.get('name') || '').trim();
+    const phone = String(formData.get('phone') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const address = String(formData.get('address') || '').trim();
+    const serviceTypes = formData.getAll('serviceTypes').map(String).filter(Boolean);
+    const projectDescription = String(formData.get('projectDescription') || '').trim();
+    const preferredTimeline = String(formData.get('preferredTimeline') || '').trim();
+    const serviceType = serviceTypes.join(', ');
+
+    if (!name || !phone || !email || !address || serviceTypes.length === 0 || !projectDescription) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields.' },
+        { status: 400 }
+      );
+    }
+
     const files: File[] = [];
     formData.forEach((value, key) => {
       if (key === 'images' && value instanceof File && value.size > 0) {
         files.push(value);
       }
     });
-    let uploaded: { key: string; url: string }[] = [];
-    if (files.length > 0) {
-      uploaded = await uploadFiles(files);
-    }
+
+    const uploaded = files.length > 0 ? await uploadFiles(files) : [];
+
     const lead = await prisma.lead.create({
       data: {
         name,
@@ -36,24 +39,25 @@ export async function POST(request: Request) {
         address,
         serviceType,
         projectDescription,
-        preferredTimeline,
-        budgetRange,
-        referralName,
-        referralContact,
-        priority,
+        preferredTimeline: preferredTimeline || null,
         images: {
-          create: uploaded.map((u) => ({ url: u.url })),
+          create: uploaded.map((file) => ({ url: file.url })),
         },
       },
     });
-    // Send notification email
+
     await sendNotification(
       'New Self Consultation Submission',
-      `A new self consultation was submitted by ${name}.`
+      `${name} submitted a self consultation for ${serviceType} in ${address}.`
     );
+    await sendCustomerConfirmation(name, email);
+
     return NextResponse.json({ success: true, leadId: lead.id });
-  } catch (err) {
-    console.error(err);
-    return new NextResponse('Error processing request', { status: 500 });
+  } catch (error) {
+    console.error('Consultation submission failed:', error);
+    return NextResponse.json(
+      { success: false, error: 'Error processing request.' },
+      { status: 500 }
+    );
   }
 }

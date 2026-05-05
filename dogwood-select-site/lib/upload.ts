@@ -1,34 +1,44 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
 
-const s3 = new S3Client({
-  region: 'auto', // R2 uses 'auto' region
-  endpoint: process.env.R2_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID ?? '',
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY ?? '',
-  },
-});
+const hasStorageConfig =
+  Boolean(process.env.R2_ENDPOINT) &&
+  Boolean(process.env.R2_ACCESS_KEY_ID) &&
+  Boolean(process.env.R2_SECRET_ACCESS_KEY) &&
+  Boolean(process.env.R2_BUCKET);
 
-/**
- * Upload a list of File objects to R2/S3 and return their URLs.
- * @param files An array of Blob/File objects (from FormData)
- */
+const s3 = hasStorageConfig
+  ? new S3Client({
+      region: 'auto',
+      endpoint: process.env.R2_ENDPOINT,
+      credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID ?? '',
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY ?? '',
+      },
+    })
+  : null;
+
 export async function uploadFiles(files: File[]): Promise<{ key: string; url: string }[]> {
+  if (!s3 || !process.env.R2_ENDPOINT || !process.env.R2_BUCKET) {
+    console.warn('R2 storage is not configured. Skipping file upload.');
+    return [];
+  }
+
   const results: { key: string; url: string }[] = [];
+
   for (const file of files) {
     const key = `${crypto.randomUUID()}-${file.name}`;
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(await file.arrayBuffer());
     const command = new PutObjectCommand({
-      Bucket: process.env.R2_BUCKET ?? '',
+      Bucket: process.env.R2_BUCKET,
       Key: key,
       Body: buffer,
       ContentType: file.type,
     });
+
     await s3.send(command);
-    const url = `${process.env.R2_ENDPOINT}/${process.env.R2_BUCKET}/${key}`;
-    results.push({ key, url });
+    results.push({ key, url: `${process.env.R2_ENDPOINT}/${process.env.R2_BUCKET}/${key}` });
   }
+
   return results;
 }
