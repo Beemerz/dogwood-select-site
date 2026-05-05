@@ -11,6 +11,7 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const [compressed, setCompressed] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const servicesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -23,6 +24,24 @@ export default function SiteHeader() {
   useEffect(() => {
     setServicesOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+
+    const media = window.matchMedia('(max-width: 980px)');
+    const update = () => setIsMobile(media.matches);
+    update();
+
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -40,10 +59,20 @@ export default function SiteHeader() {
   };
 
   const closeServicesSoon = () => {
+    if (isMobile) {
+      return;
+    }
     if (servicesTimer.current) {
       clearTimeout(servicesTimer.current);
     }
-    servicesTimer.current = setTimeout(() => setServicesOpen(false), 130);
+    servicesTimer.current = setTimeout(() => setServicesOpen(false), 45);
+  };
+
+  const closeServicesNow = () => {
+    if (servicesTimer.current) {
+      clearTimeout(servicesTimer.current);
+    }
+    setServicesOpen(false);
   };
 
   return (
@@ -52,10 +81,15 @@ export default function SiteHeader() {
       role="banner"
     >
       <div className="site-frame">
-        <div className="sticky-header-row">
-          <BrandMark variant="header" className="header-logo" />
+        <div className={`sticky-header-row ${isMobile ? 'sticky-header-row-mobile' : ''}`}>
+          <div className="sticky-header-main">
+            <BrandMark variant="header" className="header-logo" />
+            <Link href="/book-consultation" className="button-primary header-cta">
+              Save Time, Book Now
+            </Link>
+          </div>
 
-          <nav aria-label="Primary" className="sticky-nav">
+          <nav aria-label="Primary" className={`sticky-nav ${isMobile ? 'sticky-nav-mobile' : ''}`}>
             {primaryNav.map((item) => {
               if (item.href === '/services') {
                 const active = pathname === '/services';
@@ -63,14 +97,19 @@ export default function SiteHeader() {
                   <div
                     key={item.href}
                     className={`nav-dropdown ${servicesOpen ? 'nav-dropdown-open' : ''}`}
-                    onMouseEnter={openServices}
-                    onMouseLeave={closeServicesSoon}
+                    onMouseEnter={isMobile ? undefined : openServices}
+                    onMouseLeave={isMobile ? undefined : closeServicesSoon}
                   >
                     <div className="nav-link-group">
                       <Link
                         href="/services"
                         className={`nav-link ${active ? 'nav-link-active' : ''}`}
-                        onFocus={openServices}
+                        onFocus={isMobile ? undefined : openServices}
+                        onClick={() => {
+                          if (isMobile) {
+                            closeServicesNow();
+                          }
+                        }}
                       >
                         {item.label}
                       </Link>
@@ -81,7 +120,7 @@ export default function SiteHeader() {
                         aria-expanded={servicesOpen}
                         aria-haspopup="true"
                         onClick={() => setServicesOpen((current) => !current)}
-                        onFocus={openServices}
+                        onFocus={isMobile ? undefined : openServices}
                       >
                         <span className="nav-caret" aria-hidden="true">
                           ▾
@@ -89,7 +128,11 @@ export default function SiteHeader() {
                       </button>
                     </div>
 
-                    <div className="nav-dropdown-panel" onMouseEnter={openServices} onMouseLeave={closeServicesSoon}>
+                    <div
+                      className={`nav-dropdown-panel ${isMobile ? 'nav-dropdown-panel-mobile' : ''}`}
+                      onMouseEnter={isMobile ? undefined : openServices}
+                      onMouseLeave={isMobile ? undefined : closeServicesSoon}
+                    >
                       <div className="nav-dropdown-grid">
                         {serviceCategories.map((category) => (
                           <Link
@@ -125,10 +168,6 @@ export default function SiteHeader() {
               );
             })}
           </nav>
-
-          <Link href="/book-consultation" className="button-primary">
-            Save Time, Book Now
-          </Link>
         </div>
       </div>
     </header>

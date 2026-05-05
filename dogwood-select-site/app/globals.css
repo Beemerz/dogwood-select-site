@@ -128,10 +128,18 @@ textarea {
 
 .sticky-header-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 1.35rem;
   padding: 0.72rem 0;
+}
+
+.sticky-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .sticky-header-compressed .sticky-header-row {
@@ -1658,53 +1666,149 @@ textarea {
 }
 
 @media (max-width: 980px) {
-  .sticky-header-row,
   .split-hero,
   .home-story-grid {
     grid-template-columns: 1fr;
   }
 
   .sticky-header-row {
-    gap: 0.9rem;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 0.45rem;
+    padding: 0.45rem 0 0.35rem;
+  }
+
+  .sticky-header-main {
+    width: 100%;
+    gap: 0.8rem;
+  }
+
+  .sticky-header-row > .button-primary,
+  .header-cta {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0.72rem 0.9rem 0.72rem 1rem;
+    font-size: 0.83rem;
+    white-space: nowrap;
+  }
+
+  .sticky-header-row > .button-primary::after,
+  .header-cta::after {
+    width: 1.2rem;
+    height: 1.2rem;
+    top: -0.28rem;
+    right: -0.2rem;
   }
 
   .sticky-nav {
     justify-content: flex-start;
-    overflow: visible;
-    flex-direction: column;
-    align-items: stretch;
-    padding-bottom: 0.2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.1rem;
+    padding: 0 0 0.12rem;
+    min-height: 2.8rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .sticky-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-dropdown {
-    width: 100%;
+    flex: 0 0 auto;
   }
 
   .nav-link,
   .nav-link-button {
-    width: 100%;
-    justify-content: space-between;
-    padding-inline: 0;
+    width: auto;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0.6rem 0.68rem 0.72rem;
+    font-size: 0.92rem;
+  }
+
+  .nav-link::before {
+    left: 0.18rem;
+    right: 0.18rem;
   }
 
   .nav-dropdown-panel {
-    position: relative;
-    top: 0.4rem;
+    position: absolute;
+    top: calc(100% + 0.45rem);
     left: 0;
-    width: 100%;
-    margin-bottom: 0.4rem;
+    width: min(86vw, 360px);
+    margin-bottom: 0;
+    padding: 0.55rem;
+    z-index: 60;
+  }
+
+  .nav-dropdown-panel-mobile {
+    position: fixed;
+    top: 5.4rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    max-height: min(56vh, 420px);
+    overflow-y: auto;
   }
 
   .header-logo {
-    max-width: 138px;
+    max-width: 86px;
+  }
+
+  .sticky-header-compressed .header-logo {
+    max-width: 76px;
+  }
+
+  .site-frame {
+    width: min(1180px, calc(100% - 1.25rem));
+  }
+
+  .section-shell {
+    padding: 2.6rem 0;
+  }
+
+  .section-shell-tight {
+    padding: 1.2rem 0 0.7rem;
+  }
+
+  .story-headline,
+  .story-headline-inner,
+  .story-headline-moderate {
+    max-width: 12ch;
+    font-size: clamp(2rem, 10vw, 2.9rem);
+    line-height: 1.02;
+  }
+
+  .story-body {
+    margin-top: 1rem;
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  .home-story-grid {
+    gap: 1.35rem;
+    padding-top: 1rem;
+  }
+
+  .story-section,
+  .story-section-compact {
+    min-height: auto;
+    justify-content: flex-start;
+  }
+
+  .story-media-shell {
+    top: auto;
+    min-height: auto;
+    padding: 0.8rem;
   }
 
   .footer-brand-row {
     flex-wrap: wrap;
-  }
-
-  .story-section {
-    min-height: auto;
   }
 
   .story-media-shell,
@@ -1712,7 +1816,46 @@ textarea {
   .hero-wheel-card {
     position: relative;
     top: auto;
-    min-height: 420px;
+    min-height: auto;
+  }
+
+  .story-photo-frame,
+  .hero-wheel-frame,
+  .services-wheel-frame,
+  .services-feature-frame,
+  .photo-frame {
+    min-height: 220px;
+  }
+
+  .story-photo-copy,
+  .story-call-card {
+    padding: 0.9rem 0.9rem 1rem;
+  }
+
+  .story-progress {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .split-copy {
+    padding-right: 0;
+  }
+
+  .split-hero {
+    gap: 1.25rem;
+  }
+
+  .booking-intro-grid,
+  .rooted-members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .works-hero-merge-frame {
+    margin-top: -1.5rem;
+  }
+
+  .works-hero-merge-intro {
+    padding-top: 0;
   }
 
   .services-feature-grid,
@@ -1730,7 +1873,7 @@ textarea {
     top: auto;
     right: auto;
     width: auto;
-    margin: 1rem 1rem 0;
+    margin: 0;
   }
 
   .before-after-frame {
@@ -1744,6 +1887,10 @@ textarea {
 
   .consultation-line-grid {
     grid-template-columns: 1fr;
+  }
+
+  html {
+    scroll-padding-top: 92px;
   }
 }
 
