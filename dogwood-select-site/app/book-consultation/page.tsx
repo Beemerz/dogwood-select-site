@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import BrandMark from '@/components/site/BrandMark';
 import ConsultationPhotoLine from '@/components/site/ConsultationPhotoLine';
 import SelfConsultationForm from '@/components/site/SelfConsultationForm';
 import { createMetadata } from '@/lib/metadata';
@@ -31,39 +32,44 @@ export default function BookConsultationPage({
               choose the timing that makes sense.
             </p>
 
-            <div className="booking-intro-grid mt-8">
-              <article className="service-card">
-                <p className="eyebrow">What To Have Ready</p>
-                <p className="text-base leading-8 text-ink-soft">
-                  A rough sense of the work, a few photos if you have them, and the first date
-                  that would make the schedule easier on your side.
-                </p>
-              </article>
-              <article className="service-card">
-                <p className="eyebrow">What Happens Next</p>
-                <p className="text-base leading-8 text-ink-soft">
-                  We confirm by email right away, then follow up during business hours with a call
-                  that actually moves the project forward.
-                </p>
-              </article>
-              <article className="service-card">
-                <p className="eyebrow">What This Avoids</p>
-                <p className="text-base leading-8 text-ink-soft">
-                  No slow phone tag, no repeating the same scope three different ways, and no
-                  guessing whether we understood what the property actually needs.
-                </p>
-              </article>
+            <div className="booking-intro-shell mt-8">
+              <a href="#consultation-form" className="booking-scroll-hint">
+                Scroll
+              </a>
+              <div className="booking-guide-arrow booking-guide-arrow-hero" aria-hidden="true">
+                <span className="booking-guide-line" />
+                <span className="booking-guide-head" />
+              </div>
+              <div className="booking-intro-grid">
+                <article className="service-card">
+                  <p className="eyebrow">What To Have Ready</p>
+                  <p className="text-base leading-8 text-ink-soft">
+                    A rough sense of the work, a few photos if you have them, and the first date
+                    that would make the schedule easier on your side.
+                  </p>
+                </article>
+                <article className="service-card booking-logo-card">
+                  <BrandMark variant="fullTypeout" className="booking-logo-mark" />
+                  <p className="booking-logo-copy">
+                    Clear scope, clean follow-through, and a team that treats your time like it
+                    matters from the first step forward.
+                  </p>
+                </article>
+                <article className="service-card">
+                  <p className="eyebrow">What Happens Next</p>
+                  <p className="text-base leading-8 text-ink-soft">
+                    We confirm by email right away, then follow up during business hours with a call
+                    that actually moves the project forward.
+                  </p>
+                </article>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-shell pt-0">
+      <section id="consultation-form" className="section-shell pt-0">
         <div className="site-frame booking-form-shell">
-          <div className="booking-guide-arrow" aria-hidden="true">
-            <span className="booking-guide-line" />
-            <span className="booking-guide-head" />
-          </div>
           <SelfConsultationForm initialSelectedService={initialSelectedService} />
         </div>
       </section>

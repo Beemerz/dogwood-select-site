@@ -416,6 +416,23 @@ textarea {
   backdrop-filter: blur(10px);
 }
 
+.consult-form-back {
+  min-height: 42px;
+  padding: 0.7rem 0.95rem;
+  border-color: rgba(22, 22, 23, 0.06);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(56, 56, 61, 0.72);
+  font-size: 0.92rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.consult-form-back:hover,
+.consult-form-back:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(22, 22, 23, 0.84);
+}
+
 .button-primary:hover,
 .button-secondary:hover,
 .button-ghost:hover {
@@ -1126,14 +1143,42 @@ textarea {
   flex-direction: column;
 }
 
+.booking-intro-shell {
+  position: relative;
+}
+
 .booking-intro-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .booking-form-shell {
   margin-top: -0.25rem;
+}
+
+.booking-logo-card {
+  position: relative;
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.booking-logo-mark {
+  display: inline-flex;
+  max-width: 165px;
+  margin-inline: auto;
+}
+
+.booking-logo-copy {
+  max-width: 22rem;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.75;
 }
 
 .works-hero-merge {
@@ -1574,10 +1619,24 @@ textarea {
   pointer-events: none;
 }
 
+.booking-guide-arrow-hero {
+  position: absolute;
+  left: 50%;
+  top: -8.75rem;
+  bottom: -10.4rem;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 1;
+}
+
 .booking-guide-line {
   width: 1px;
   height: 8.2rem;
   background: linear-gradient(180deg, rgba(239, 139, 119, 0.12), rgba(239, 139, 119, 0.7));
+}
+
+.booking-guide-arrow-hero .booking-guide-line {
+  height: 100%;
 }
 
 .booking-guide-head {
@@ -1587,6 +1646,25 @@ textarea {
   border-right: 2px solid rgba(239, 139, 119, 0.72);
   border-bottom: 2px solid rgba(239, 139, 119, 0.72);
   transform: rotate(45deg);
+}
+
+.booking-scroll-hint {
+  position: absolute;
+  left: 50%;
+  top: -2.6rem;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: rgba(56, 56, 61, 0.55);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.booking-scroll-hint:hover,
+.booking-scroll-hint:focus-visible {
+  color: rgba(56, 56, 61, 0.82);
+  transform: translateX(-50%) translateY(-1px);
 }
 
 .rooted-benefits {
@@ -1701,6 +1779,7 @@ textarea {
   }
 
   .sticky-header-row {
+    position: relative;
     grid-template-columns: 1fr;
     align-items: stretch;
     gap: 0.45rem;
@@ -1748,6 +1827,7 @@ textarea {
   }
 
   .nav-dropdown {
+    position: static;
     flex: 0 0 auto;
   }
 
@@ -1776,10 +1856,10 @@ textarea {
   }
 
   .nav-dropdown-panel-mobile {
-    position: fixed;
-    top: 5.4rem;
-    left: 1rem;
-    right: 1rem;
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    right: 0;
     width: auto;
     max-height: min(56vh, 420px);
     overflow-y: auto;
@@ -1889,6 +1969,19 @@ textarea {
   .booking-intro-grid,
   .rooted-members-grid {
     grid-template-columns: 1fr;
+  }
+
+  .booking-intro-shell {
+    padding-top: 2.2rem;
+  }
+
+  .booking-scroll-hint {
+    top: 0;
+  }
+
+  .booking-guide-arrow-hero {
+    top: -2.2rem;
+    bottom: -3.6rem;
   }
 
   .works-hero-merge-frame {
