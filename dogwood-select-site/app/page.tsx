@@ -69,7 +69,7 @@ export default function HomePage() {
                 See The Works
               </Link>
             </div>
-            <div className="mt-8">
+            <div className="mt-8 homepage-works-proof">
               <BeforeAfterShowcase limit={2} />
             </div>
           </section>

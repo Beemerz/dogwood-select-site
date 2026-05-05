@@ -1004,6 +1004,10 @@ textarea {
   position: relative;
 }
 
+.story-rail-mobile {
+  display: none;
+}
+
 .story-media-shell {
   position: sticky;
   top: 6.6rem;
@@ -1877,6 +1881,11 @@ textarea {
     padding-top: 1rem;
   }
 
+  .story-rail-mobile {
+    display: block;
+    margin: -0.1rem 0 0.8rem;
+  }
+
   .story-section,
   .story-section-compact {
     min-height: auto;
@@ -1899,6 +1908,10 @@ textarea {
     position: relative;
     top: auto;
     min-height: auto;
+  }
+
+  .story-rail {
+    display: none;
   }
 
   .story-photo-frame,
@@ -1980,6 +1993,10 @@ textarea {
   .before-after-divider {
     width: 100%;
     height: 1px;
+  }
+
+  .homepage-works-proof {
+    display: none;
   }
 
   .consultation-line-grid {

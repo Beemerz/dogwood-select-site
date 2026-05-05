@@ -52,6 +52,7 @@ export default function HomeStoryExperience({
   const [videoMissing, setVideoMissing] = useState(false);
   const [activeChapter, setActiveChapter] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const reducedMotion = useReducedMotion();
   const chapters = useMemo(() => storyChapters, []);
   const visibleChapters = useMemo(() => storyChapters.slice(0, -1), []);
@@ -59,13 +60,31 @@ export default function HomeStoryExperience({
   const managerChapter = visibleChapters[3];
   const activePhoto = homeRailPhotos[activeChapter] ?? homeRailPhotos[0];
 
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+
+    const media = window.matchMedia('(max-width: 980px)');
+    const update = () => setIsMobileViewport(media.matches);
+    update();
+
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
+
   const goToChapter = (index: number) => {
     const length = chapters.length;
     setActiveChapter((index + length) % length);
   };
 
   useEffect(() => {
-    if (reducedMotion) {
+    if (reducedMotion || isMobileViewport) {
       return undefined;
     }
 
@@ -114,7 +133,7 @@ export default function HomeStoryExperience({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [chapters, duration, reducedMotion, videoMissing, videoReady]);
+  }, [chapters, duration, reducedMotion, videoMissing, videoReady, isMobileViewport]);
 
   const copyPhone = async () => {
     try {
@@ -138,6 +157,93 @@ export default function HomeStoryExperience({
     }
   };
 
+  const railContent = (
+    <div className="story-media-shell">
+      {!reducedMotion && !isMobileViewport && !videoMissing ? (
+        <video
+          ref={videoRef}
+          src={VIDEO_PATH}
+          muted
+          playsInline
+          preload="metadata"
+          poster="/brand/full-no-typeout-v2.png"
+          className="story-video"
+          onLoadedMetadata={(event) => {
+            setDuration(event.currentTarget.duration || 0);
+            setVideoReady(true);
+          }}
+          onLoadedData={() => setVideoReady(true)}
+          onError={() => setVideoMissing(true)}
+        />
+      ) : null}
+      <div className="story-video-overlay" />
+      <Link href={activePhoto.href} className="story-photo-card">
+        <div className="photo-frame story-photo-frame">
+          <img
+            src={activePhoto.src}
+            alt={activePhoto.alt}
+            className="photo-image absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div className="story-photo-copy">
+          <p className="photo-kicker">{activePhoto.eyebrow}</p>
+          <h4>{activePhoto.title}</h4>
+          <p>{activePhoto.railCaption ?? activePhoto.caption}</p>
+        </div>
+      </Link>
+      <div className="story-annotation">
+        <div className="story-utility-stack">
+          <div className="story-call-card">
+            <p className="story-kicker">Need it faster?</p>
+            <h3>Don&apos;t like forms? Call instead.</h3>
+            <p>Tap {siteConfig.phoneDisplay} to call now, or copy it for later.</p>
+            <div className="story-call-actions">
+              <a href={siteConfig.phoneHref} className="story-call-link">
+                {siteConfig.phoneDisplay}
+              </a>
+              <button type="button" className="story-copy-chip" onClick={copyPhone}>
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+            </div>
+          </div>
+          <Link href="/book-consultation" className="button-primary story-inline-cta story-inline-cta-accent">
+            Submit Self Consultation Now
+          </Link>
+        </div>
+        <div className="story-progress">
+          <button
+            type="button"
+            className="story-progress-nav"
+            onClick={() => goToChapter(activeChapter - 1)}
+            aria-label="Previous photo"
+          >
+            <span aria-hidden="true">←</span>
+          </button>
+          {chapters.map((chapter, index) => (
+            <button
+              key={chapter.eyebrow}
+              type="button"
+              onClick={() => goToChapter(index)}
+              aria-label={`Show slide ${index + 1}`}
+              aria-pressed={index === activeChapter}
+              className={index === activeChapter ? 'story-dot story-dot-active' : 'story-dot'}
+            />
+          ))}
+          <button
+            type="button"
+            className="story-progress-nav"
+            onClick={() => goToChapter(activeChapter + 1)}
+            aria-label="Next photo"
+          >
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div ref={containerRef} className="site-frame home-story-grid">
       <div className="space-y-20 pb-16">
@@ -151,6 +257,7 @@ export default function HomeStoryExperience({
             </Link>
           </section>
         ))}
+        {isMobileViewport ? <aside className="story-rail-mobile">{railContent}</aside> : null}
         {midSection ? <div className="pb-4">{midSection}</div> : null}
         {managerChapter ? (
           <section className="story-section" id="owners-and-managers">
@@ -165,92 +272,7 @@ export default function HomeStoryExperience({
         {children ? <div className="space-y-16 pb-16">{children}</div> : null}
       </div>
 
-      <aside className="story-rail">
-        <div className="story-media-shell">
-          {!reducedMotion && !videoMissing ? (
-            <video
-              ref={videoRef}
-              src={VIDEO_PATH}
-              muted
-              playsInline
-              preload="metadata"
-              poster="/brand/full-no-typeout-v2.png"
-              className="story-video"
-              onLoadedMetadata={(event) => {
-                setDuration(event.currentTarget.duration || 0);
-                setVideoReady(true);
-              }}
-              onLoadedData={() => setVideoReady(true)}
-              onError={() => setVideoMissing(true)}
-            />
-          ) : null}
-          <div className="story-video-overlay" />
-          <Link href={activePhoto.href} className="story-photo-card">
-            <div className="photo-frame story-photo-frame">
-              <img
-                src={activePhoto.src}
-                alt={activePhoto.alt}
-                className="photo-image absolute inset-0 h-full w-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="story-photo-copy">
-              <p className="photo-kicker">{activePhoto.eyebrow}</p>
-              <h4>{activePhoto.title}</h4>
-              <p>{activePhoto.railCaption ?? activePhoto.caption}</p>
-            </div>
-          </Link>
-          <div className="story-annotation">
-            <div className="story-utility-stack">
-              <div className="story-call-card">
-                <p className="story-kicker">Need it faster?</p>
-                <h3>Don&apos;t like forms? Call instead.</h3>
-                <p>Tap {siteConfig.phoneDisplay} to call now, or copy it for later.</p>
-                <div className="story-call-actions">
-                  <a href={siteConfig.phoneHref} className="story-call-link">
-                    {siteConfig.phoneDisplay}
-                  </a>
-                  <button type="button" className="story-copy-chip" onClick={copyPhone}>
-                    {copied ? 'Copied' : 'Copy'}
-                  </button>
-                </div>
-              </div>
-              <Link href="/book-consultation" className="button-primary story-inline-cta story-inline-cta-accent">
-                Submit Self Consultation Now
-              </Link>
-            </div>
-            <div className="story-progress">
-              <button
-                type="button"
-                className="story-progress-nav"
-                onClick={() => goToChapter(activeChapter - 1)}
-                aria-label="Previous photo"
-              >
-                <span aria-hidden="true">←</span>
-              </button>
-              {chapters.map((chapter, index) => (
-                <button
-                  key={chapter.eyebrow}
-                  type="button"
-                  onClick={() => goToChapter(index)}
-                  aria-label={`Show slide ${index + 1}`}
-                  aria-pressed={index === activeChapter}
-                  className={index === activeChapter ? 'story-dot story-dot-active' : 'story-dot'}
-                />
-              ))}
-              <button
-                type="button"
-                className="story-progress-nav"
-                onClick={() => goToChapter(activeChapter + 1)}
-                aria-label="Next photo"
-              >
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </aside>
+      {!isMobileViewport ? <aside className="story-rail">{railContent}</aside> : null}
     </div>
   );
 }
