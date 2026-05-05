@@ -33,13 +33,6 @@ export default function BookConsultationPage({
             </p>
 
             <div className="booking-intro-shell mt-8">
-              <a href="#consultation-form" className="booking-scroll-hint">
-                Scroll
-              </a>
-              <div className="booking-guide-arrow booking-guide-arrow-hero" aria-hidden="true">
-                <span className="booking-guide-line" />
-                <span className="booking-guide-head" />
-              </div>
               <div className="booking-intro-grid">
                 <article className="service-card">
                   <p className="eyebrow">What To Have Ready</p>
@@ -54,6 +47,10 @@ export default function BookConsultationPage({
                     Clear scope, clean follow-through, and a team that treats your time like it
                     matters from the first step forward.
                   </p>
+                  <a href="#consultation-form" className="booking-scroll-inline">
+                    <span>Scroll</span>
+                    <span className="booking-scroll-inline-arrow" aria-hidden="true" />
+                  </a>
                 </article>
                 <article className="service-card">
                   <p className="eyebrow">What Happens Next</p>

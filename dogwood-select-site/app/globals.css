@@ -1181,6 +1181,33 @@ textarea {
   line-height: 1.75;
 }
 
+.booking-scroll-inline {
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+  color: rgba(56, 56, 61, 0.52);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.booking-scroll-inline:hover,
+.booking-scroll-inline:focus-visible {
+  color: rgba(56, 56, 61, 0.78);
+  transform: translateY(-1px);
+}
+
+.booking-scroll-inline-arrow {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-right: 1.5px solid rgba(239, 139, 119, 0.72);
+  border-bottom: 1.5px solid rgba(239, 139, 119, 0.72);
+  transform: rotate(45deg);
+}
+
 .works-hero-merge {
   position: relative;
   z-index: 3;
@@ -1612,61 +1639,6 @@ textarea {
   color: var(--ink-strong);
 }
 
-.booking-guide-arrow {
-  display: grid;
-  justify-items: center;
-  margin: -0.4rem auto 1.15rem;
-  pointer-events: none;
-}
-
-.booking-guide-arrow-hero {
-  position: absolute;
-  left: 50%;
-  top: -8.75rem;
-  bottom: -10.4rem;
-  transform: translateX(-50%);
-  margin: 0;
-  z-index: 1;
-}
-
-.booking-guide-line {
-  width: 1px;
-  height: 8.2rem;
-  background: linear-gradient(180deg, rgba(239, 139, 119, 0.12), rgba(239, 139, 119, 0.7));
-}
-
-.booking-guide-arrow-hero .booking-guide-line {
-  height: 100%;
-}
-
-.booking-guide-head {
-  width: 1.1rem;
-  height: 1.1rem;
-  margin-top: -0.05rem;
-  border-right: 2px solid rgba(239, 139, 119, 0.72);
-  border-bottom: 2px solid rgba(239, 139, 119, 0.72);
-  transform: rotate(45deg);
-}
-
-.booking-scroll-hint {
-  position: absolute;
-  left: 50%;
-  top: -2.6rem;
-  transform: translateX(-50%);
-  z-index: 3;
-  color: rgba(56, 56, 61, 0.55);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: color 160ms ease, transform 160ms ease;
-}
-
-.booking-scroll-hint:hover,
-.booking-scroll-hint:focus-visible {
-  color: rgba(56, 56, 61, 0.82);
-  transform: translateX(-50%) translateY(-1px);
-}
-
 .rooted-benefits {
   display: grid;
   gap: 0.7rem;
@@ -1972,16 +1944,7 @@ textarea {
   }
 
   .booking-intro-shell {
-    padding-top: 2.2rem;
-  }
-
-  .booking-scroll-hint {
-    top: 0;
-  }
-
-  .booking-guide-arrow-hero {
-    top: -2.2rem;
-    bottom: -3.6rem;
+    padding-top: 0;
   }
 
   .works-hero-merge-frame {
