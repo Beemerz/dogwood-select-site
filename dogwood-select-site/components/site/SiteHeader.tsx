@@ -84,9 +84,11 @@ export default function SiteHeader() {
         <div className={`sticky-header-row ${isMobile ? 'sticky-header-row-mobile' : ''}`}>
           <div className="sticky-header-main">
             <BrandMark variant="header" className="header-logo" />
-            <Link href="/book-consultation" className="button-primary header-cta">
-              Save Time, Book Now
-            </Link>
+            {isMobile ? (
+              <Link href="/book-consultation" className="button-primary header-cta">
+                Save Time, Book Now
+              </Link>
+            ) : null}
           </div>
 
           <nav aria-label="Primary" className={`sticky-nav ${isMobile ? 'sticky-nav-mobile' : ''}`}>
@@ -168,6 +170,12 @@ export default function SiteHeader() {
               );
             })}
           </nav>
+
+          {!isMobile ? (
+            <Link href="/book-consultation" className="button-primary header-cta">
+              Save Time, Book Now
+            </Link>
+          ) : null}
         </div>
       </div>
     </header>

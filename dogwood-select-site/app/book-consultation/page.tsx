@@ -59,6 +59,10 @@ export default function BookConsultationPage({
 
       <section className="section-shell pt-0">
         <div className="site-frame booking-form-shell">
+          <div className="booking-guide-arrow" aria-hidden="true">
+            <span className="booking-guide-line" />
+            <span className="booking-guide-head" />
+          </div>
           <SelfConsultationForm initialSelectedService={initialSelectedService} />
         </div>
       </section>

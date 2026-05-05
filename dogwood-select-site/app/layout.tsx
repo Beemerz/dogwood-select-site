@@ -13,9 +13,9 @@ export const metadata: Metadata = {
     template: '%s | Dogwood Select',
   },
   icons: {
-    icon: '/icon-v2.png',
-    shortcut: '/icon-v2.png',
-    apple: '/icon-v2.png',
+    icon: '/brand/micro-logo-v2.png',
+    shortcut: '/brand/micro-logo-v2.png',
+    apple: '/brand/micro-logo-v2.png',
   },
   description:
     'Dogwood Select handles exterior maintenance, curb appeal upgrades, outdoor renovation, and property management support for Richmond and Central Virginia.',

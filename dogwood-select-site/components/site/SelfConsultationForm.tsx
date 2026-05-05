@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import DogwoodConfetti from '@/components/site/DogwoodConfetti';
 import FieldLabel from '@/components/site/FieldLabel';
@@ -25,6 +25,7 @@ export default function SelfConsultationForm({
 }) {
   const [step, setStep] = useState(0);
   const [servicePage, setServicePage] = useState(0);
+  const [compactBarrel, setCompactBarrel] = useState(false);
   const [formValues, setFormValues] = useState(initialForm);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
@@ -32,19 +33,20 @@ export default function SelfConsultationForm({
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [confettiKey, setConfettiKey] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   const serviceOptions = useMemo(
     () => serviceInterestOptions.filter((option) => option !== 'Not sure yet'),
     []
   );
-  const servicesPerPage = 6;
+  const servicesPerPage = compactBarrel ? 4 : 6;
   const servicePages = useMemo(() => {
     const pages = [];
     for (let index = 0; index < serviceOptions.length; index += servicesPerPage) {
       pages.push(serviceOptions.slice(index, index + servicesPerPage));
     }
     return pages;
-  }, [serviceOptions]);
+  }, [serviceOptions, servicesPerPage]);
   const isRootedMember = selectedServices.length >= 3;
 
   useEffect(() => {
@@ -57,7 +59,29 @@ export default function SelfConsultationForm({
         setServicePage(Math.floor(initialIndex / servicesPerPage));
       }
     }
-  }, [initialSelectedService, serviceOptions]);
+  }, [initialSelectedService, serviceOptions, servicesPerPage]);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+
+    const media = window.matchMedia('(max-width: 760px)');
+    const update = () => setCompactBarrel(media.matches);
+    update();
+
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    setServicePage((current) => Math.min(current, Math.max(servicePages.length - 1, 0)));
+  }, [servicePages.length]);
 
   const updateField = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.currentTarget;
@@ -106,6 +130,52 @@ export default function SelfConsultationForm({
   const previousStep = () => {
     setError('');
     setStep((current) => Math.max(current - 1, 0));
+  };
+
+  const jumpToStep = (targetStep: number) => {
+    if (targetStep <= step) {
+      setError('');
+      setStep(targetStep);
+      return;
+    }
+
+    if (targetStep >= 1 && selectedServices.length === 0) {
+      setError('Pick at least one service so we know what kind of help you need.');
+      return;
+    }
+
+    if (targetStep >= 2 && !formValues.projectDescription.trim()) {
+      setError('Tell us what is going on before you continue.');
+      return;
+    }
+
+    setError('');
+    setStep(targetStep);
+  };
+
+  const onBarrelTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const onBarrelTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) {
+      return;
+    }
+
+    const endX = event.changedTouches[0]?.clientX ?? touchStartX.current;
+    const delta = endX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(delta) < 28) {
+      return;
+    }
+
+    if (delta < 0) {
+      changeServicePage('right');
+      return;
+    }
+
+    changeServicePage('left');
   };
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -188,13 +258,16 @@ export default function SelfConsultationForm({
               const active = index === step;
 
               return (
-                <div
+                <button
                   key={milestone}
+                  type="button"
+                  onClick={() => jumpToStep(index)}
                   className={`consult-chip ${done ? 'consult-chip-done' : ''} ${active ? 'consult-chip-active' : ''}`}
+                  aria-pressed={active}
                 >
                   <span className="consult-chip-index">0{index + 1}</span>
                   <span>{milestone}</span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -203,7 +276,9 @@ export default function SelfConsultationForm({
         {step === 0 ? (
           <div className="space-y-5">
             <div>
-              <FieldLabel htmlFor="service-types">Project / service type</FieldLabel>
+              <FieldLabel htmlFor="service-types">
+                Which of these projects or services would your outdoor environment benefit from?
+              </FieldLabel>
               <div id="service-types" className="service-barrel">
                 <div className="service-barrel-top">
                   <button
@@ -216,7 +291,13 @@ export default function SelfConsultationForm({
                     <span aria-hidden="true">←</span>
                   </button>
 
-                  <div className="service-barrel-viewport" role="group" aria-label="Project type selector">
+                  <div
+                    className="service-barrel-viewport"
+                    role="group"
+                    aria-label="Project type selector"
+                    onTouchStart={onBarrelTouchStart}
+                    onTouchEnd={onBarrelTouchEnd}
+                  >
                     <div
                       className="service-barrel-track"
                       style={{ transform: `translateX(-${servicePage * 100}%)` }}

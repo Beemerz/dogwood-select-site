@@ -119,6 +119,7 @@ export const serviceInterestOptions = [
   'Pressure washing',
   'Curb appeal',
   'Patios and hardscape',
+  'Oasis Remodel',
   'Drainage help',
   'Property support and seasonal care',
   'Custom project',

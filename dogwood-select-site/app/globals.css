@@ -15,8 +15,8 @@
   --accent-warm: #ef8b77;
   --accent-hot: #ef8b77;
   --accent-olive: #25272a;
-  --radius-card: 28px;
-  --radius-button: 14px;
+  --radius-card: 22px;
+  --radius-button: 12px;
   --shadow-soft: 0 24px 55px rgba(34, 28, 24, 0.08);
   --shadow-tight: 0 12px 28px rgba(34, 28, 24, 0.08);
 }
@@ -128,7 +128,7 @@ textarea {
 
 .sticky-header-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 1.35rem;
   padding: 0.72rem 0;
@@ -524,14 +524,14 @@ textarea {
 
 .photo-overlay {
   position: absolute;
-  left: 1rem;
-  bottom: 1rem;
+  left: 0.8rem;
+  bottom: 0.8rem;
   display: inline-grid;
   width: fit-content;
-  max-width: min(calc(100% - 2rem), 28rem);
-  border-radius: 18px;
+  max-width: min(calc(100% - 1.6rem), 20rem);
+  border-radius: 14px;
   background: linear-gradient(180deg, rgba(20, 20, 22, 0.12), rgba(20, 20, 22, 0.72));
-  padding: 1rem;
+  padding: 0.72rem 0.78rem;
   color: #f8f3eb;
   backdrop-filter: blur(8px);
 }
@@ -539,8 +539,8 @@ textarea {
 .photo-overlay h3 {
   margin: 0.25rem 0 0;
   font-family: var(--font-display), serif;
-  font-size: 1.55rem;
-  line-height: 1.08;
+  font-size: 1.18rem;
+  line-height: 1.05;
 }
 
 .photo-copy {
@@ -730,9 +730,9 @@ textarea {
 }
 
 .services-wheel-overlay {
-  left: 0.9rem;
-  bottom: 0.9rem;
-  max-width: min(calc(100% - 1.8rem), 20rem);
+  left: 0.75rem;
+  bottom: 0.75rem;
+  max-width: min(calc(100% - 1.5rem), 16rem);
 }
 
 .services-wheel-controls {
@@ -1214,10 +1214,10 @@ textarea {
 
 .hero-wheel-overlay {
   left: 0.82rem;
-  right: 0.82rem;
   bottom: 0.82rem;
   border-radius: 15px;
   padding: 0.72rem 0.82rem;
+  max-width: min(calc(100% - 1.64rem), 14rem);
 }
 
 .hero-wheel-overlay .photo-kicker {
@@ -1227,7 +1227,7 @@ textarea {
 
 .hero-wheel-overlay h3 {
   margin-top: 0.14rem;
-  font-size: 1.12rem;
+  font-size: 1rem;
   line-height: 1.08;
 }
 
@@ -1349,13 +1349,14 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  border-radius: 999px;
+  border-radius: 16px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.48);
   padding: 0.55rem 0.8rem;
   color: var(--ink-muted);
   font-size: 0.88rem;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .consult-form-top {
@@ -1389,7 +1390,7 @@ textarea {
 
 .service-pill {
   min-height: 52px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.62);
   padding: 0.95rem 1rem;
@@ -1479,13 +1480,13 @@ textarea {
 
 .service-barrel-viewport {
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: 20px;
   border: 1px solid rgba(77, 67, 50, 0.12);
   background:
     radial-gradient(circle at center, rgba(255, 255, 255, 0.55), rgba(244, 236, 226, 0.72)),
     linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(244, 236, 226, 0.82));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 14px 26px rgba(37, 28, 22, 0.06);
-  padding: 1rem;
+  padding: 0.9rem;
 }
 
 .consultation-shell-rooted .service-barrel-viewport {
@@ -1507,14 +1508,19 @@ textarea {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
+  padding-inline: 0.08rem;
 }
 
 .service-barrel-chip {
   min-height: 58px;
   justify-content: center;
   text-align: center;
-  border-radius: 18px;
-  font-size: 0.92rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.22;
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .service-barrel-dots {
@@ -1545,7 +1551,7 @@ textarea {
 }
 
 .rooted-card {
-  border-radius: 24px;
+  border-radius: 20px;
   border: 1px solid rgba(239, 139, 119, 0.22);
   background: linear-gradient(180deg, rgba(255, 246, 240, 0.9), rgba(255, 238, 228, 0.82));
   padding: 1.2rem 1.25rem;
@@ -1558,6 +1564,28 @@ textarea {
   font-size: 1.35rem;
   line-height: 1.15;
   color: var(--ink-strong);
+}
+
+.booking-guide-arrow {
+  display: grid;
+  justify-items: center;
+  margin: -0.4rem auto 1.15rem;
+  pointer-events: none;
+}
+
+.booking-guide-line {
+  width: 1px;
+  height: 6rem;
+  background: linear-gradient(180deg, rgba(239, 139, 119, 0.12), rgba(239, 139, 119, 0.7));
+}
+
+.booking-guide-head {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: -0.05rem;
+  border-right: 2px solid rgba(239, 139, 119, 0.72);
+  border-bottom: 2px solid rgba(239, 139, 119, 0.72);
+  transform: rotate(45deg);
 }
 
 .rooted-benefits {
@@ -1832,6 +1860,17 @@ textarea {
     padding: 0.9rem 0.9rem 1rem;
   }
 
+  .photo-overlay {
+    left: 0.62rem;
+    bottom: 0.62rem;
+    max-width: min(calc(100% - 1.24rem), 12.5rem);
+    padding: 0.58rem 0.62rem;
+  }
+
+  .photo-overlay h3 {
+    font-size: 0.94rem;
+  }
+
   .story-progress {
     justify-content: center;
     flex-wrap: wrap;
@@ -1887,6 +1926,39 @@ textarea {
 
   .consultation-line-grid {
     grid-template-columns: 1fr;
+  }
+
+  .consult-chip {
+    padding: 0.5rem 0.68rem;
+    font-size: 0.8rem;
+  }
+
+  .service-barrel-top {
+    gap: 0.55rem;
+  }
+
+  .service-barrel-viewport {
+    padding: 0.72rem;
+  }
+
+  .service-barrel-page {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.62rem;
+    padding-inline: 0.02rem;
+  }
+
+  .service-barrel-chip {
+    min-height: 54px;
+    padding: 0.7rem 0.62rem;
+    font-size: 0.8rem;
+  }
+
+  .booking-guide-arrow {
+    margin: -0.15rem auto 0.8rem;
+  }
+
+  .booking-guide-line {
+    height: 4.3rem;
   }
 
   html {
