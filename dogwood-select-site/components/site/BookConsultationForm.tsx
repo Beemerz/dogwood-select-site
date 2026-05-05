@@ -40,6 +40,11 @@ export default function BookConsultationForm() {
       setError('Select at least one service need before submitting.');
       return;
     }
+    if (!payload.preferredDate || !payload.preferredTime) {
+      setSubmitting(false);
+      setError('Preferred date and preferred time are both required.');
+      return;
+    }
 
     try {
       const response = await fetch('/api/bookings', {
@@ -47,9 +52,12 @@ export default function BookConsultationForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; message?: string }
+        | null;
 
-      if (!response.ok) {
-        throw new Error('Unable to reserve a consultation right now.');
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || 'Unable to reserve a consultation right now.');
       }
 
       event.currentTarget.reset();
@@ -128,11 +136,11 @@ export default function BookConsultationForm() {
           </div>
           <div>
             <FieldLabel htmlFor="preferredDate">Preferred date</FieldLabel>
-            <input id="preferredDate" name="preferredDate" type="date" className="input-shell" />
+            <input id="preferredDate" name="preferredDate" type="date" className="input-shell" required />
           </div>
           <div>
             <FieldLabel htmlFor="preferredTime">Preferred time</FieldLabel>
-            <input id="preferredTime" name="preferredTime" type="time" className="input-shell" />
+            <input id="preferredTime" name="preferredTime" type="time" className="input-shell" required />
           </div>
           <div className="md:col-span-2">
             <FieldLabel htmlFor="preferredTimeline" optional>
@@ -164,7 +172,7 @@ export default function BookConsultationForm() {
             Save $100 on your first qualifying service. Terms and conditions apply.
           </p>
           <button type="submit" className="button-primary" disabled={submitting}>
-            {submitting ? 'Submitting...' : 'Book Consultation'}
+            {submitting ? 'Sending...' : 'Book Consultation'}
           </button>
         </div>
       </form>

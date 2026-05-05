@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import DogwoodConfetti from '@/components/site/DogwoodConfetti';
 import FieldLabel from '@/components/site/FieldLabel';
 import FormSuccessCard from '@/components/site/FormSuccessCard';
 import { serviceInterestOptions } from '@/lib/site';
@@ -9,13 +10,20 @@ export default function ContactForm() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [confettiKey, setConfettiKey] = useState(0);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
     setError('');
 
-    const payload = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const formData = new FormData(event.currentTarget);
+    const payload = Object.fromEntries(formData.entries());
+    if (!String(payload.phone || '').trim() && !String(payload.email || '').trim()) {
+      setSubmitting(false);
+      setError('Add a phone number or email so we can get back to you.');
+      return;
+    }
 
     try {
       const response = await fetch('/api/contact', {
@@ -23,13 +31,17 @@ export default function ContactForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; message?: string }
+        | null;
 
-      if (!response.ok) {
-        throw new Error('Unable to send your message right now.');
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || 'Unable to send your message right now.');
       }
 
       event.currentTarget.reset();
       setSuccess(true);
+      setConfettiKey((current) => current + 1);
     } catch (submissionError) {
       setError(
         submissionError instanceof Error
@@ -44,10 +56,13 @@ export default function ContactForm() {
   return (
     <div className="space-y-6">
       {success ? (
-        <FormSuccessCard
-          title="Your message has been received."
-          copy="Dogwood Select will reply by phone or email and point you to the fastest next move instead of making you guess."
-        />
+        <>
+          <DogwoodConfetti burstKey={confettiKey} />
+          <FormSuccessCard
+            title="Your message has been received."
+            copy="Dogwood Select will reply by phone or email and point you to the fastest next move instead of making you guess."
+          />
+        </>
       ) : null}
 
       <form onSubmit={handleSubmit} className="panel-card p-6 md:p-8">
@@ -62,7 +77,7 @@ export default function ContactForm() {
           </div>
           <div>
             <FieldLabel htmlFor="email">Email</FieldLabel>
-            <input id="email" name="email" type="email" className="input-shell" required />
+            <input id="email" name="email" type="email" className="input-shell" />
           </div>
           <div>
             <FieldLabel htmlFor="city">City or property area</FieldLabel>

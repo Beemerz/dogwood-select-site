@@ -124,20 +124,30 @@ export default function SelfConsultationForm({
       setError('We still need your name, phone, email, and property address.');
       return;
     }
+    if (!formValues.projectDescription.trim()) {
+      setSubmitting(false);
+      setError('Tell us what is going on before you submit.');
+      return;
+    }
 
-    const payload = new FormData();
-    Object.entries(formValues).forEach(([key, value]) => payload.append(key, value));
-    selectedServices.forEach((service) => payload.append('serviceTypes', service));
-    files.forEach((file) => payload.append('images', file));
+    const payload = {
+      ...formValues,
+      serviceTypes: selectedServices,
+      photoNames: files.map((file) => file.name),
+    };
 
     try {
       const response = await fetch('/api/consultations', {
         method: 'POST',
-        body: payload,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; message?: string }
+        | null;
 
-      if (!response.ok) {
-        throw new Error('We could not send that just yet. Give it one more try.');
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || 'We could not send that just yet. Give it one more try.');
       }
 
       setSuccess(true);
@@ -328,6 +338,11 @@ export default function SelfConsultationForm({
                   </span>
                 ))}
               </div>
+              {selectedServices.length === 0 ? (
+                <p className="mt-3 text-sm text-[color:var(--accent-hot)]">
+                  Keep at least one service selected so the submission can be saved correctly.
+                </p>
+              ) : null}
             </div>
             <div>
               <FieldLabel htmlFor="projectDescription">Tell us what&apos;s going on</FieldLabel>

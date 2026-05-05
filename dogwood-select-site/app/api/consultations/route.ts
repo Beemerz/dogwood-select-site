@@ -1,35 +1,43 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendCustomerConfirmation, sendNotification } from '@/lib/email';
-import { uploadFiles } from '@/lib/upload';
+import {
+  asCleanString,
+  asOptionalString,
+  asStringArray,
+  buildPhotoNote,
+  combineNotes,
+  parseRequestBody,
+} from '@/lib/submissions';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData();
-    const name = String(formData.get('name') || '').trim();
-    const phone = String(formData.get('phone') || '').trim();
-    const email = String(formData.get('email') || '').trim();
-    const address = String(formData.get('address') || '').trim();
-    const serviceTypes = formData.getAll('serviceTypes').map(String).filter(Boolean);
-    const projectDescription = String(formData.get('projectDescription') || '').trim();
-    const preferredTimeline = String(formData.get('preferredTimeline') || '').trim();
+    const { data, files } = await parseRequestBody(request);
+    const name = asCleanString(data.name);
+    const phone = asCleanString(data.phone);
+    const email = asCleanString(data.email);
+    const address = asCleanString(data.address || data.propertyArea || data.city);
+    const serviceTypes = asStringArray(data.serviceTypes ?? data.serviceInterest ?? data.serviceType);
+    const projectDescription = asCleanString(data.projectDescription);
+    const preferredTimeline = asOptionalString(data.preferredTimeline);
+    const budgetRange = asOptionalString(data.budgetRange);
+    const priority = asOptionalString(data.priority);
+    const referralName = asOptionalString(data.referralName);
+    const referralContact = asOptionalString(data.referralContact);
     const serviceType = serviceTypes.join(', ');
+    const photoNames = [
+      ...asStringArray(data.photoNames),
+      ...files.map((file) => file.name).filter(Boolean),
+    ];
 
     if (!name || !phone || !email || !address || serviceTypes.length === 0 || !projectDescription) {
       return NextResponse.json(
-        { success: false, error: 'Missing required fields.' },
+        { ok: false, message: 'Name, phone, email, property area, service interest, and project description are required.' },
         { status: 400 }
       );
     }
-
-    const files: File[] = [];
-    formData.forEach((value, key) => {
-      if (key === 'images' && value instanceof File && value.size > 0) {
-        files.push(value);
-      }
-    });
-
-    const uploaded = files.length > 0 ? await uploadFiles(files) : [];
 
     const lead = await prisma.lead.create({
       data: {
@@ -38,12 +46,20 @@ export async function POST(request: Request) {
         email,
         address,
         serviceType,
-        projectDescription,
-        preferredTimeline: preferredTimeline || null,
-        images: {
-          create: uploaded.map((file) => ({ url: file.url })),
-        },
+        projectDescription: combineNotes([projectDescription, buildPhotoNote(photoNames)]),
+        preferredTimeline,
+        budgetRange,
+        priority,
+        referralName,
+        referralContact,
       },
+    });
+
+    console.log('Dogwood Select submission saved', {
+      type: 'self-consultation',
+      email,
+      phone,
+      timestamp: new Date().toISOString(),
     });
 
     await sendNotification(
@@ -52,11 +68,11 @@ export async function POST(request: Request) {
     );
     await sendCustomerConfirmation(name, email);
 
-    return NextResponse.json({ success: true, leadId: lead.id });
+    return NextResponse.json({ ok: true, message: 'Submission saved successfully.', leadId: lead.id });
   } catch (error) {
     console.error('Consultation submission failed:', error);
     return NextResponse.json(
-      { success: false, error: 'Error processing request.' },
+      { ok: false, message: 'Unable to save your self consultation right now.' },
       { status: 500 }
     );
   }

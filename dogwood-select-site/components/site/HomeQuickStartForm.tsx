@@ -72,9 +72,12 @@ export default function HomeQuickStartForm() {
           serviceTypes: selectedServices,
         }),
       });
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; message?: string }
+        | null;
 
-      if (!response.ok) {
-        throw new Error('We could not send that just yet. Give it one more try.');
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || 'We could not send that just yet. Give it one more try.');
       }
 
       setSuccess(true);

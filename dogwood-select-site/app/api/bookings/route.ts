@@ -1,26 +1,39 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendNotification } from '@/lib/email';
+import { asCleanString, asStringArray, combineNotes, parseRequestBody } from '@/lib/submissions';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
-    const name = String(data.name || '').trim();
-    const phone = String(data.phone || '').trim();
-    const email = String(data.email || '').trim();
-    const address = String(data.address || '').trim();
-    const rawServiceTypes = Array.isArray(data.serviceTypes)
-      ? data.serviceTypes.map((value: unknown) => String(value).trim()).filter(Boolean)
-      : [];
-    const preferredTimeline = String(data.preferredTimeline || '').trim();
-    const preferredDate = String(data.preferredDate || '').trim();
-    const preferredTime = String(data.preferredTime || '').trim();
-    const notes = String(data.notes || '').trim();
+    const { data } = await parseRequestBody(request);
+    const name = asCleanString(data.name);
+    const phone = asCleanString(data.phone);
+    const email = asCleanString(data.email);
+    const address = asCleanString(data.address || data.city || data.propertyArea);
+    const rawServiceTypes = asStringArray(data.serviceTypes ?? data.serviceType ?? data.projectType);
+    const preferredTimeline = asCleanString(data.preferredTimeline);
+    const preferredDate = asCleanString(data.preferredDate);
+    const preferredTime = asCleanString(data.preferredTime);
+    const notes = asCleanString(data.notes);
     const projectType = rawServiceTypes.join(', ');
 
-    if (!name || !phone || !email || !address || rawServiceTypes.length === 0) {
+    if (
+      !name ||
+      !phone ||
+      !email ||
+      !address ||
+      rawServiceTypes.length === 0 ||
+      !preferredDate ||
+      !preferredTime
+    ) {
       return NextResponse.json(
-        { success: false, error: 'Missing required fields.' },
+        {
+          ok: false,
+          message:
+            'Name, phone, email, property address or city, service type, preferred date, and preferred time are required.',
+        },
         { status: 400 }
       );
     }
@@ -31,11 +44,21 @@ export async function POST(request: Request) {
         phone,
         email,
         address,
-        projectType: preferredTimeline ? `${projectType} | Timeline: ${preferredTimeline}` : projectType,
+        projectType,
         preferredDate: preferredDate ? new Date(preferredDate) : null,
         preferredTime: preferredTime || null,
-        notes: notes || null,
+        notes: combineNotes([
+          notes,
+          preferredTimeline ? `Preferred timeline: ${preferredTimeline}` : '',
+        ]),
       },
+    });
+
+    console.log('Dogwood Select submission saved', {
+      type: 'book-consultation',
+      email,
+      phone,
+      timestamp: new Date().toISOString(),
     });
 
     await sendNotification(
@@ -43,11 +66,11 @@ export async function POST(request: Request) {
       `${name} requested a consultation for ${projectType} in ${address}.`
     );
 
-    return NextResponse.json({ success: true, bookingId: booking.id });
+    return NextResponse.json({ ok: true, message: 'Submission saved successfully.', bookingId: booking.id });
   } catch (error) {
     console.error('Booking submission failed:', error);
     return NextResponse.json(
-      { success: false, error: 'Error processing request.' },
+      { ok: false, message: 'Unable to save your consultation request right now.' },
       { status: 500 }
     );
   }

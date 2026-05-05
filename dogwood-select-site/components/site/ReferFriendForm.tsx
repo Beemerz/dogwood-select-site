@@ -18,9 +18,16 @@ export default function ReferFriendForm() {
     setError('');
 
     const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
+    const payload = {
+      referrerName: String(formData.get('referrerName') || ''),
+      referrerContact: String(formData.get('referrerContact') || ''),
+      friendName: String(formData.get('friendName') || ''),
+      friendContact: String(formData.get('friendContact') || ''),
+      friendServiceInterest: String(formData.get('friendServiceInterest') || ''),
+      consent: formData.get('consent') === 'true',
+    };
 
-    if (!('consent' in payload)) {
+    if (!payload.consent) {
       setSubmitting(false);
       setError('Consent is required before sending a referral.');
       return;
@@ -32,9 +39,12 @@ export default function ReferFriendForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; message?: string }
+        | null;
 
-      if (!response.ok) {
-        throw new Error('Unable to send the referral right now.');
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || 'Unable to send the referral right now.');
       }
 
       event.currentTarget.reset();
@@ -74,19 +84,19 @@ export default function ReferFriendForm() {
             <input id="referrerContact" name="referrerContact" className="input-shell" required />
           </div>
           <div>
-            <FieldLabel htmlFor="referredName">Friend name</FieldLabel>
-            <input id="referredName" name="referredName" className="input-shell" required />
+            <FieldLabel htmlFor="friendName">Friend name</FieldLabel>
+            <input id="friendName" name="friendName" className="input-shell" required />
           </div>
           <div>
-            <FieldLabel htmlFor="referredContact">Friend phone or email</FieldLabel>
-            <input id="referredContact" name="referredContact" className="input-shell" required />
+            <FieldLabel htmlFor="friendContact">Friend phone or email</FieldLabel>
+            <input id="friendContact" name="friendContact" className="input-shell" required />
           </div>
           <div className="md:col-span-2">
             <FieldLabel htmlFor="friendServiceInterest">Friend service interest</FieldLabel>
-            <select id="friendServiceInterest" name="notes" className="input-shell" required>
+            <select id="friendServiceInterest" name="friendServiceInterest" className="input-shell" required>
               <option value="">Choose a likely service</option>
               {serviceInterestOptions.map((option) => (
-                <option key={option} value={`Friend service interest: ${option}`}>
+                <option key={option} value={option}>
                   {option}
                 </option>
               ))}
@@ -115,7 +125,7 @@ export default function ReferFriendForm() {
             Save $100 for each referred friend who books a qualifying service.
           </p>
           <button type="submit" className="button-primary" disabled={submitting}>
-            {submitting ? 'Submitting...' : 'Refer a Friend'}
+            {submitting ? 'Sending...' : 'Refer a Friend'}
           </button>
         </div>
       </form>
