@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import ConsultationPhotoLine from '@/components/site/ConsultationPhotoLine';
-import HeroPhotoWheel from '@/components/site/HeroPhotoWheel';
 import SelfConsultationForm from '@/components/site/SelfConsultationForm';
 import { createMetadata } from '@/lib/metadata';
 
@@ -21,8 +20,8 @@ export default function BookConsultationPage({
   return (
     <>
       <section className="section-shell section-shell-tight">
-        <div className="site-frame split-hero booking-hero">
-          <div className="split-copy booking-copy">
+        <div className="site-frame booking-hero-simple">
+          <div className="booking-copy">
             <p className="eyebrow">Book Consultation</p>
             <h1 className="story-headline story-headline-inner max-w-3xl">
               Send the details once, save time on the back and forth.
@@ -47,13 +46,15 @@ export default function BookConsultationPage({
                   that actually moves the project forward.
                 </p>
               </article>
+              <article className="service-card">
+                <p className="eyebrow">What This Avoids</p>
+                <p className="text-base leading-8 text-ink-soft">
+                  No slow phone tag, no repeating the same scope three different ways, and no
+                  guessing whether we understood what the property actually needs.
+                </p>
+              </article>
             </div>
-
           </div>
-
-          <aside className="split-visual">
-            <HeroPhotoWheel eyebrow="Book Consultation" />
-          </aside>
         </div>
       </section>
 

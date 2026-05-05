@@ -115,6 +115,7 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 50;
+  overflow: visible;
   border-bottom: 1px solid var(--line);
   background: rgba(251, 246, 240, 0.76);
   backdrop-filter: blur(16px);
@@ -1575,7 +1576,7 @@ textarea {
 
 .booking-guide-line {
   width: 1px;
-  height: 6rem;
+  height: 8.2rem;
   background: linear-gradient(180deg, rgba(239, 139, 119, 0.12), rgba(239, 139, 119, 0.7));
 }
 
@@ -1731,7 +1732,7 @@ textarea {
   .sticky-nav {
     justify-content: flex-start;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     flex-wrap: nowrap;
     align-items: center;
     gap: 0.1rem;
@@ -1782,6 +1783,7 @@ textarea {
     width: auto;
     max-height: min(56vh, 420px);
     overflow-y: auto;
+    z-index: 120;
   }
 
   .header-logo {
@@ -1928,6 +1930,23 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .consult-form-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .consult-form-actions > * {
+    width: 100%;
+  }
+
+  .consult-form-back {
+    order: 2;
+  }
+
+  .consult-form-forward {
+    order: 1;
+  }
+
   .consult-chip {
     padding: 0.5rem 0.68rem;
     font-size: 0.8rem;
@@ -1958,7 +1977,7 @@ textarea {
   }
 
   .booking-guide-line {
-    height: 4.3rem;
+    height: 5.6rem;
   }
 
   html {

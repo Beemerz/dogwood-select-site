@@ -364,7 +364,7 @@ export default function SelfConsultationForm({
                 <h3>This service mix would make you a rooted member.</h3>
                 <p className="rooted-callout">
                   When selecting <strong>3 or more services</strong>, you become a Rooted Member
-                  for free. <strong>$99 dollar value.</strong>
+                  for free. <strong>$600 dollar value.</strong>
                 </p>
                 <ul className="rooted-benefits">
                   <li>
@@ -385,9 +385,9 @@ export default function SelfConsultationForm({
                   </li>
                 </ul>
                 <p className="rooted-note">
-                  Rooted Members are otherwise available for <strong>$99/month</strong> when you
-                  only need one or two services. Book <strong>3 or more services</strong> and that
-                  member fee is waived for the first <strong>6 months</strong> of recurring
+                  Rooted Memberships are otherwise available for <strong>$99/month</strong> when
+                  you only need one or two services. Book <strong>3 or more services</strong> and
+                  that member fee is waived for the first <strong>6 months</strong> of recurring
                   service.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
@@ -527,17 +527,17 @@ export default function SelfConsultationForm({
 
         {error ? <p className="mt-5 text-sm text-[color:var(--accent-hot)]">{error}</p> : null}
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button type="button" onClick={previousStep} className="button-ghost" disabled={step === 0}>
+        <div className="consult-form-actions mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <button type="button" onClick={previousStep} className="button-ghost consult-form-back" disabled={step === 0}>
             Back
           </button>
 
           {step < 2 ? (
-            <button type="button" onClick={nextStep} className="button-secondary">
+            <button type="button" onClick={nextStep} className="button-secondary consult-form-forward">
               Keep Going
             </button>
           ) : (
-            <button type="submit" className="button-primary" disabled={submitting}>
+            <button type="submit" className="button-primary consult-form-forward" disabled={submitting}>
               {submitting ? 'Sending...' : 'Save Time, Book Now'}
             </button>
           )}

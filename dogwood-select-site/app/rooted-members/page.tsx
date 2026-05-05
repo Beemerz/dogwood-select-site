@@ -50,10 +50,11 @@ export default function RootedMembersPage() {
             </h2>
             <p className="story-body max-w-3xl">
               When selecting <strong>3 or more services</strong>, you become a Rooted Member for
-              free. <strong>$99 dollar value.</strong> If you only need one or two services, you
-              can still join for <strong>$99/month</strong> and get the same planning and priority
-              advantages. The free member-fee waiver applies for the first <strong>6 months</strong>
-              of recurring service after booking 3 or more services.
+              free. <strong>$600 dollar value.</strong> If you only need one or two services,
+              Rooted Memberships are otherwise available for <strong>$99/month</strong> and come
+              with the same planning and priority advantages. The free member-fee waiver applies
+              for the first <strong>6 months</strong> of recurring service after booking 3 or more
+              services.
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
