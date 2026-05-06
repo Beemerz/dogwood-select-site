@@ -20,7 +20,7 @@ export default function HomePage() {
           midSection={
             <section className="story-section story-section-compact">
               <p className="eyebrow">Contact Now</p>
-              <h2 className="story-headline story-headline-moderate">
+              <h2 className="font-display text-[2rem] leading-[1.08] text-ink-strong md:text-[2.5rem]">
                 When you decide on excellence, send the context once and we will handle the next steps cleanly.
               </h2>
               <p className="story-body">
@@ -67,20 +67,6 @@ export default function HomePage() {
               <Link href="/the-works" className="button-primary">
                 See The Works
               </Link>
-            </div>
-            <div className="mt-8 homepage-works-proof">
-              <article className="service-card homepage-company-intro">
-                <p className="text-[1.04rem] leading-8 text-ink-soft md:text-[1.08rem]">
-                  Around Richmond and Central Virginia, the best outdoor spaces are the ones that
-                  feel settled into the landscape instead of forced onto it. We take that
-                  seriously, whether the work is a lawn that needs steadier care, an entry that
-                  needs to look more welcoming, or a backyard that should finally feel worth using.
-                </p>
-                <p className="text-[1.04rem] leading-8 text-ink-soft md:text-[1.08rem]">
-                  Our goal is simple: cleaner presentation, stronger upkeep, and outdoor work that
-                  feels rooted in the way Virginia properties are actually lived in.
-                </p>
-              </article>
             </div>
           </section>
         </HomeStoryExperience>
