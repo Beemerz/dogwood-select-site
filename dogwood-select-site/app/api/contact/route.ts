@@ -48,12 +48,18 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    await sendNotification(
-      'New Contact Form Submission',
-      `${name} sent a website message. Email: ${email}. Phone: ${phone || 'Not provided'}. City: ${
-        city || 'Not provided'
-      }. Service interest: ${serviceInterest || 'Not provided'}. Message: ${message}`
-    );
+    await sendNotification({
+      subject: 'New Contact Form Submission',
+      previewText: `${name} sent a website message from the contact page.`,
+      fields: [
+        { label: 'Name', value: name },
+        { label: 'Email', value: email || null },
+        { label: 'Phone', value: phone || null },
+        { label: 'City / property area', value: city || null },
+        { label: 'Service interest', value: serviceInterest || null },
+        { label: 'Message', value: message },
+      ],
+    });
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', leadId: lead.id });
   } catch (error) {

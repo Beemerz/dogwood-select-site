@@ -62,10 +62,24 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    await sendNotification(
-      'New Self Consultation Submission',
-      `${name} submitted a self consultation for ${serviceType} in ${address}.`
-    );
+    await sendNotification({
+      subject: 'New Self Consultation Submission',
+      previewText: `${name} submitted a self consultation for ${serviceType} in ${address}.`,
+      fields: [
+        { label: 'Name', value: name },
+        { label: 'Phone', value: phone },
+        { label: 'Email', value: email },
+        { label: 'Property area', value: address },
+        { label: 'Service interest', value: serviceType },
+        { label: 'Project description', value: projectDescription },
+        { label: 'Preferred timeline', value: preferredTimeline },
+        { label: 'Budget range', value: budgetRange },
+        { label: 'Priority', value: priority },
+        { label: 'Referral name', value: referralName },
+        { label: 'Referral contact', value: referralContact },
+        { label: 'Photos selected', value: photoNames.join(', ') || null },
+      ],
+    });
     await sendCustomerConfirmation(name, email);
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', leadId: lead.id });

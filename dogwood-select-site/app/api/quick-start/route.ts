@@ -41,10 +41,16 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    await sendNotification(
-      'New Homepage Quick Start Request',
-      `${name} requested a quick start for ${serviceTypes.join(', ')}. Phone: ${phone}. Preferred start date: ${preferredDate}.`
-    );
+    await sendNotification({
+      subject: 'New Homepage Quick Start Request',
+      previewText: `${name} requested a quick start for ${serviceTypes.join(', ')}.`,
+      fields: [
+        { label: 'Name', value: name },
+        { label: 'Phone', value: phone },
+        { label: 'Preferred start date', value: preferredDate },
+        { label: 'Service types', value: serviceTypes.join(', ') },
+      ],
+    });
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', leadId: lead.id });
   } catch (error) {

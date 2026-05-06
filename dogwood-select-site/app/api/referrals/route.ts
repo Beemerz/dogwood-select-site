@@ -54,10 +54,20 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    await sendNotification(
-      'New Referral Submission',
-      `${referrerName} referred ${friendName} to Dogwood Select for ${friendServiceInterest}.`
-    );
+    await sendNotification({
+      subject: 'New Referral Submission',
+      previewText: `${referrerName} referred ${friendName} to Dogwood Select for ${friendServiceInterest}.`,
+      fields: [
+        { label: 'Referrer name', value: referrerName },
+        { label: 'Referrer contact', value: referrerContact },
+        { label: 'Friend name', value: friendName },
+        { label: 'Friend contact', value: friendContact },
+        { label: 'Friend service interest', value: friendServiceInterest },
+        { label: 'Consent', value: consent ? 'Yes' : 'No' },
+        { label: 'Interested in recurring care', value: interestedRecurring ? 'Yes' : 'No' },
+        { label: 'Notes', value: notes || null },
+      ],
+    });
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', referralId: referral.id });
   } catch (error) {

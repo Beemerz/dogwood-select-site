@@ -61,10 +61,21 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    await sendNotification(
-      'New Booking Request',
-      `${name} requested a consultation for ${projectType} in ${address}.`
-    );
+    await sendNotification({
+      subject: 'New Booking Request',
+      previewText: `${name} requested a consultation for ${projectType} in ${address}.`,
+      fields: [
+        { label: 'Name', value: name },
+        { label: 'Phone', value: phone },
+        { label: 'Email', value: email },
+        { label: 'Property address', value: address },
+        { label: 'Project / service type', value: projectType },
+        { label: 'Preferred date', value: preferredDate },
+        { label: 'Preferred time', value: preferredTime },
+        { label: 'Preferred timeline', value: preferredTimeline || null },
+        { label: 'Notes', value: notes || null },
+      ],
+    });
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', bookingId: booking.id });
   } catch (error) {
