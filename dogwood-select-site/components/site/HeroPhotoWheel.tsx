@@ -7,6 +7,7 @@ import { serviceExamples } from '@/lib/workPhotos';
 
 export default function HeroPhotoWheel({ eyebrow }: { eyebrow: string }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   const goToIndex = (index: number) => {
     const length = serviceExamples.length;
@@ -22,12 +23,33 @@ export default function HeroPhotoWheel({ eyebrow }: { eyebrow: string }) {
   };
 
   useEffect(() => {
+    if (typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+
+    const media = window.matchMedia('(max-width: 980px)');
+    const update = () => setAutoRotate(!media.matches);
+    update();
+
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    if (!autoRotate) {
+      return undefined;
+    }
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % serviceExamples.length);
     }, 3200);
 
     return () => window.clearInterval(timer);
-  }, [activeIndex]);
+  }, [activeIndex, autoRotate]);
 
   const activePhoto = serviceExamples[activeIndex];
 
@@ -70,7 +92,7 @@ export default function HeroPhotoWheel({ eyebrow }: { eyebrow: string }) {
       </div>
 
       <Link href="/book-consultation" className="button-primary hero-wheel-button hero-wheel-button-toned">
-        Submit Self Consultation Now
+        Request This Service
       </Link>
     </div>
   );

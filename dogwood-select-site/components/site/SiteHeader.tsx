@@ -86,7 +86,7 @@ export default function SiteHeader() {
             <BrandMark variant="header" className="header-logo" />
             {isMobile ? (
               <Link href="/book-consultation" className="button-primary header-cta">
-                Save Time, Book Now
+                Book a Free Consultation
               </Link>
             ) : null}
           </div>
@@ -173,7 +173,7 @@ export default function SiteHeader() {
 
           {!isMobile ? (
             <Link href="/book-consultation" className="button-primary header-cta">
-              Save Time, Book Now
+              Book a Free Consultation
             </Link>
           ) : null}
         </div>

@@ -17,7 +17,7 @@ export default function ServicesPage() {
         eyebrow="Our Services"
         title="A stronger exterior starts with knowing which kind of work actually moves the property forward."
         description="From recurring grounds care to outdoor living upgrades, each service category is built to solve a distinct kind of exterior problem without overlap or guesswork."
-        primaryCta={{ label: 'Save Time, Book Now', href: '/book-consultation' }}
+        primaryCta={{ label: 'Book a Free Consultation', href: '/book-consultation' }}
         secondaryCta={{ label: 'See The Works', href: '/the-works' }}
       />
 

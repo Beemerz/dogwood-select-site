@@ -172,7 +172,7 @@ export default function BookConsultationForm() {
             Save $100 on your first qualifying service. Terms and conditions apply.
           </p>
           <button type="submit" className="button-primary" disabled={submitting}>
-            {submitting ? 'Sending...' : 'Book Consultation'}
+            {submitting ? 'Sending...' : 'Send Message'}
           </button>
         </div>
       </form>

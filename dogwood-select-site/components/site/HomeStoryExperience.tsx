@@ -209,7 +209,7 @@ export default function HomeStoryExperience({
             </div>
           </div>
           <Link href="/book-consultation" className="button-primary story-inline-cta story-inline-cta-accent">
-            Submit Self Consultation Now
+            Request This Service
           </Link>
         </div>
         <div className="story-progress">
@@ -252,9 +252,25 @@ export default function HomeStoryExperience({
             <p className="eyebrow">{chapter.eyebrow}</p>
             <h2 className="story-headline">{chapter.title}</h2>
             <p className="story-body">{chapter.body}</p>
-            <Link href={chapter.ctaHref} className={index === 0 ? 'button-primary' : 'button-secondary'}>
-              {chapter.ctaLabel}
-            </Link>
+            {index === 0 ? (
+              <>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link href={chapter.ctaHref} className="button-primary">
+                    {chapter.ctaLabel}
+                  </Link>
+                  <a href={siteConfig.phoneHref} className="button-secondary">
+                    Call {siteConfig.phoneDisplay}
+                  </a>
+                </div>
+                <p className="mt-4 text-sm text-ink-muted">
+                  New customer offer: $100 off your first qualifying service.
+                </p>
+              </>
+            ) : (
+              <Link href={chapter.ctaHref} className="button-secondary">
+                {chapter.ctaLabel}
+              </Link>
+            )}
           </section>
         ))}
         {isMobileViewport ? <aside className="story-rail-mobile">{railContent}</aside> : null}

@@ -18,7 +18,7 @@ export default function TheWorksPage() {
         eyebrow="The Works"
         title="This is where the property starts looking obviously more dialed in."
         description="Before and after, clearly labeled, cleanly framed, and honest about what actually changed."
-        primaryCta={{ label: 'Save Time, Book Now', href: '/book-consultation' }}
+        primaryCta={{ label: 'Book a Free Consultation', href: '/book-consultation' }}
         secondaryCta={{ label: 'Our Services', href: '/services' }}
         compact
       />

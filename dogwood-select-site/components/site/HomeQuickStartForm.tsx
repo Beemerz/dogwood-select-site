@@ -192,7 +192,7 @@ export default function HomeQuickStartForm() {
 
       <div className="mt-5">
         <button type="submit" className="button-primary w-full md:w-auto" disabled={submitting}>
-          {submitting ? 'Sending...' : 'Save Time, Book Now'}
+          {submitting ? 'Sending...' : 'Send Message'}
         </button>
       </div>
     </form>

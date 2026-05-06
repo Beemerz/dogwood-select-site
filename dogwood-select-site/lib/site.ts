@@ -129,10 +129,10 @@ export const serviceInterestOptions = [
 export const storyChapters = [
   {
     eyebrow: 'This Starts With Time',
-    title: 'The outside of a property can quietly lower the standard of everything else around it.',
+    title: 'Turn the outside of your property into the part people remember.',
     body:
-      'When the grounds slip, the beds flatten out, or the hardscape starts looking tired, the whole place feels behind. Dogwood Select keeps that slide from becoming the first impression.',
-    ctaLabel: 'Save Time, Book Now',
+      'Dogwood Select helps Richmond and Central Virginia properties look sharper, feel more usable, and stay better maintained — from curb appeal resets to outdoor upgrades and ongoing property support.',
+    ctaLabel: 'Book a Free Consultation',
     ctaHref: '/book-consultation',
   },
   {
@@ -164,7 +164,7 @@ export const storyChapters = [
     title: 'When you decide on excellence, send the context once and we will handle the next steps cleanly.',
     body:
       'The consultation flow is there to save time, not cheapen the work. You send the details, we confirm by email right away, and we follow up within one hour during business hours.',
-    ctaLabel: 'Save Time, Book Now',
+    ctaLabel: 'Book a Free Consultation',
     ctaHref: '/book-consultation',
   },
 ] as const;

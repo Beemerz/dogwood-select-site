@@ -538,7 +538,7 @@ export default function SelfConsultationForm({
             </button>
           ) : (
             <button type="submit" className="button-primary consult-form-forward" disabled={submitting}>
-              {submitting ? 'Sending...' : 'Save Time, Book Now'}
+              {submitting ? 'Sending...' : 'Send Message'}
             </button>
           )}
         </div>

@@ -19,7 +19,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Reach out directly if you already know the situation."
         description="If the work is urgent, weird, or easier to explain outside the form, send a message here and we will steer it the right way."
-        primaryCta={{ label: 'Save Time, Book Now', href: '/book-consultation' }}
+        primaryCta={{ label: 'Book a Free Consultation', href: '/book-consultation' }}
         secondaryCta={{ label: 'Our Services', href: '/services' }}
       />
 
@@ -44,11 +44,11 @@ export default function ContactPage() {
             </div>
             <div className="flex flex-wrap gap-3">
               <Link href="/book-consultation" className="button-primary">
-                Save Time, Book Now
+                Book a Free Consultation
               </Link>
-              <Link href="/the-works" className="button-secondary">
-                See The Works
-              </Link>
+              <a href={siteConfig.phoneHref} className="button-secondary">
+                Call {siteConfig.phoneDisplay}
+              </a>
             </div>
           </aside>
 

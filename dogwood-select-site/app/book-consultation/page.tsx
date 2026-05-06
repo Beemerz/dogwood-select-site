@@ -67,6 +67,9 @@ export default function BookConsultationPage({
 
       <section id="consultation-form" className="section-shell pt-0">
         <div className="site-frame booking-form-shell">
+          <p className="mb-4 text-sm text-ink-muted">
+            New customer offer: $100 off your first qualifying service.
+          </p>
           <SelfConsultationForm initialSelectedService={initialSelectedService} />
         </div>
       </section>
