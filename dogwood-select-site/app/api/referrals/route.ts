@@ -55,9 +55,10 @@ export async function POST(request: Request) {
     });
 
     await sendNotification({
-      subject: 'New Referral Submission',
+      subject: 'New Dogwood Select Referral',
       previewText: `${referrerName} referred ${friendName} to Dogwood Select for ${friendServiceInterest}.`,
       fields: [
+        { label: 'Submission type', value: 'Referral' },
         { label: 'Referrer name', value: referrerName },
         { label: 'Referrer contact', value: referrerContact },
         { label: 'Friend name', value: friendName },

@@ -63,9 +63,10 @@ export async function POST(request: Request) {
     });
 
     await sendNotification({
-      subject: 'New Self Consultation Submission',
+      subject: 'New Dogwood Select Lead',
       previewText: `${name} submitted a self consultation for ${serviceType} in ${address}.`,
       fields: [
+        { label: 'Submission type', value: 'Self consultation lead' },
         { label: 'Name', value: name },
         { label: 'Phone', value: phone },
         { label: 'Email', value: email },

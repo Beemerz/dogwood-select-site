@@ -14,9 +14,14 @@ type NotificationOptions = {
 const apiKey = process.env.RESEND_API_KEY?.trim() ?? '';
 const resend = apiKey ? new Resend(apiKey) : null;
 const fromEmail =
-  process.env.RESEND_FROM_EMAIL?.trim() || 'Dogwood Select <noreply@dogwoodselect.com>';
+  process.env.FROM_EMAIL?.trim() ||
+  process.env.RESEND_FROM_EMAIL?.trim() ||
+  'Dogwood Select <noreply@dogwoodselect.com>';
 const replyToEmail =
-  process.env.RESEND_REPLY_TO?.trim() || process.env.NOTIFICATION_EMAIL?.trim() || undefined;
+  process.env.CONTACT_ALERT_EMAIL?.trim() ||
+  process.env.NOTIFICATION_EMAIL?.trim() ||
+  process.env.RESEND_REPLY_TO?.trim() ||
+  undefined;
 
 function escapeHtml(value: string) {
   return value
@@ -53,7 +58,10 @@ function renderTextFields(fields: NotificationField[]) {
 }
 
 export async function sendNotification({ subject, previewText, fields }: NotificationOptions) {
-  const toEmail = process.env.NOTIFICATION_EMAIL?.trim() ?? '';
+  const toEmail =
+    process.env.CONTACT_ALERT_EMAIL?.trim() ||
+    process.env.NOTIFICATION_EMAIL?.trim() ||
+    '';
 
   if (!toEmail || !resend) {
     console.warn('Notification email is not configured. Skipping email send.', {

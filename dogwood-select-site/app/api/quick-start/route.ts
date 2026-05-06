@@ -42,9 +42,10 @@ export async function POST(request: Request) {
     });
 
     await sendNotification({
-      subject: 'New Homepage Quick Start Request',
+      subject: 'New Dogwood Select Lead',
       previewText: `${name} requested a quick start for ${serviceTypes.join(', ')}.`,
       fields: [
+        { label: 'Submission type', value: 'Homepage quick-start lead' },
         { label: 'Name', value: name },
         { label: 'Phone', value: phone },
         { label: 'Preferred start date', value: preferredDate },

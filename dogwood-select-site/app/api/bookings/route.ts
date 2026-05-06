@@ -62,9 +62,10 @@ export async function POST(request: Request) {
     });
 
     await sendNotification({
-      subject: 'New Booking Request',
+      subject: 'New Dogwood Select Booking',
       previewText: `${name} requested a consultation for ${projectType} in ${address}.`,
       fields: [
+        { label: 'Submission type', value: 'Booking request' },
         { label: 'Name', value: name },
         { label: 'Phone', value: phone },
         { label: 'Email', value: email },

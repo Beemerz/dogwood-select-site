@@ -49,9 +49,10 @@ export async function POST(request: Request) {
     });
 
     await sendNotification({
-      subject: 'New Contact Form Submission',
+      subject: 'New Dogwood Select Lead',
       previewText: `${name} sent a website message from the contact page.`,
       fields: [
+        { label: 'Submission type', value: 'Contact lead' },
         { label: 'Name', value: name },
         { label: 'Email', value: email || null },
         { label: 'Phone', value: phone || null },
