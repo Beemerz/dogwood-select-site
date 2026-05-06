@@ -56,8 +56,8 @@ export default function HomeStoryExperience({
   const reducedMotion = useReducedMotion();
   const chapters = useMemo(() => storyChapters, []);
   const visibleChapters = useMemo(() => storyChapters.slice(0, -1), []);
-  const openingChapters = visibleChapters.slice(0, 3);
-  const managerChapter = visibleChapters[3];
+  const openingChapters = visibleChapters.slice(0, 1);
+  const managerChapter = visibleChapters[1];
   const activePhoto = homeRailPhotos[activeChapter] ?? homeRailPhotos[0];
 
   useEffect(() => {

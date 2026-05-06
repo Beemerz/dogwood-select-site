@@ -136,25 +136,9 @@ export const storyChapters = [
     eyebrow: 'This Starts With Time',
     title: 'Turn the outside of your property into the part people remember.',
     body:
-      'Dogwood Select helps Richmond and Central Virginia properties look sharper, feel more usable, and stay better maintained — from curb appeal resets to outdoor upgrades and ongoing property support.',
+      'Dogwood Select helps Richmond and Central Virginia properties look sharper, feel more usable, and stay better maintained — from curb appeal resets to outdoor upgrades and ongoing property support, including the smaller misses that quietly make a place feel behind.',
     ctaLabel: 'Book a Free Consultation',
     ctaHref: '/book-consultation',
-  },
-  {
-    eyebrow: 'The Shift',
-    title: 'The difference is rarely one big issue. It is the accumulation of small misses.',
-    body:
-      'Soft edges, weathered surfaces, thin mulch, clogged gutters, underwhelming entries, and outdoor areas that never quite come together. We fix the visual drag before it becomes the story of the property.',
-    ctaLabel: 'See Our Services',
-    ctaHref: '/services',
-  },
-  {
-    eyebrow: 'The Works',
-    title: 'Some jobs are maintenance. Some need a reset. We keep the line between those clear.',
-    body:
-      'That means practical upkeep when upkeep is enough, and bigger moves only when the property actually benefits from them. No filler. No fake luxury language. No mystery scope creep.',
-    ctaLabel: 'Browse The Works',
-    ctaHref: '/the-works',
   },
   {
     eyebrow: 'For Owners And Managers',
