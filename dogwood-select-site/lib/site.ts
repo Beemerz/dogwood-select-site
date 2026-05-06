@@ -35,6 +35,7 @@ export const serviceCategories = [
     navTitle: 'Landscape Care',
     navCopy: 'Mowing, pruning, bed care.',
     icon: 'landscape',
+    requestService: 'Landscape care',
     intro: 'Steady exterior care that keeps the property clean, healthy, and visibly well-kept.',
     items: [
       'Mowing and edging',
@@ -51,6 +52,7 @@ export const serviceCategories = [
     navTitle: 'Wash and Restore',
     navCopy: 'Siding, stone, concrete, trim.',
     icon: 'wash',
+    requestService: 'Pressure washing',
     intro: 'A proper surface reset for siding, stone, trim, concrete, and all the places grime loves to settle.',
     items: [
       'Soft washing',
@@ -67,6 +69,7 @@ export const serviceCategories = [
     navTitle: 'Curb Appeal',
     navCopy: 'Mulch, planting, front entry polish.',
     icon: 'curb',
+    requestService: 'Curb appeal',
     intro: 'The visible refinements that sharpen first impressions and make the approach feel considered.',
     items: [
       'Mulch and bed refreshes',
@@ -83,6 +86,7 @@ export const serviceCategories = [
     navTitle: 'Outdoor Living',
     navCopy: 'Patios, hardscape, layout upgrades.',
     icon: 'outdoor',
+    requestService: 'Patios and hardscape',
     intro: 'Bigger outdoor improvements for owners who want the property to feel more complete, useful, and lasting.',
     items: [
       'Patios and hardscape',
@@ -99,6 +103,7 @@ export const serviceCategories = [
     navTitle: 'Property Support',
     navCopy: 'Turnovers, storm cleanup, seasonal resets.',
     icon: 'property',
+    requestService: 'Property support and seasonal care',
     intro: 'Reliable support for rentals, portfolios, turnovers, and seasonal cleanup that need to stay presentation-ready.',
     items: [
       'Turnover cleanup',

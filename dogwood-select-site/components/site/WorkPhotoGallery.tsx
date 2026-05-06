@@ -38,7 +38,13 @@ export default function WorkPhotoGallery() {
               </div>
 
               <div className="services-feature-visual">
-                <ServiceCategoryWheel photos={photos} label={category.title} />
+                <ServiceCategoryWheel
+                  photos={photos}
+                  label={category.title}
+                  actionLabel="Get this service"
+                  actionPlacement="photo"
+                  showDetails
+                />
               </div>
             </div>
           </article>

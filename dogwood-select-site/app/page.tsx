@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import BeforeAfterShowcase from '@/components/site/BeforeAfterShowcase';
+import FeaturedJobStories from '@/components/site/FeaturedJobStories';
 import HomeQuickStartForm from '@/components/site/HomeQuickStartForm';
 import HomeStoryExperience from '@/components/site/HomeStoryExperience';
 import ServiceCategoryCards from '@/components/site/ServiceCategoryCards';
@@ -70,7 +70,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="mt-8 homepage-works-proof">
-              <BeforeAfterShowcase limit={2} />
+              <FeaturedJobStories limit={2} compact />
             </div>
           </section>
         </HomeStoryExperience>

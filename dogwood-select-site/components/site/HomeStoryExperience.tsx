@@ -246,7 +246,7 @@ export default function HomeStoryExperience({
 
   return (
     <div ref={containerRef} className="site-frame home-story-grid">
-      <div className="space-y-20 pb-16">
+      <div className="space-y-14 pb-12">
         {openingChapters.map((chapter, index) => (
           <section key={chapter.title} className="story-section" id={index === 1 ? 'services-preview' : undefined}>
             <p className="eyebrow">{chapter.eyebrow}</p>
@@ -285,7 +285,7 @@ export default function HomeStoryExperience({
             </Link>
           </section>
         ) : null}
-        {children ? <div className="space-y-16 pb-16">{children}</div> : null}
+        {children ? <div className="space-y-12 pb-12">{children}</div> : null}
       </div>
 
       {!isMobileViewport ? <aside className="story-rail">{railContent}</aside> : null}

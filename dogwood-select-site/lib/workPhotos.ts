@@ -6,6 +6,11 @@ export type WorkPhoto = {
   caption: string;
   href: string;
   railCaption?: string;
+  serviceInterest?: string;
+  location?: string;
+  timeframe?: string;
+  workPerformed?: string;
+  scopeCost?: '$' | '$$' | '$$$' | '$$$$';
 };
 
 export const workPhotos: WorkPhoto[] = [
@@ -17,6 +22,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Layered patio space, cleaner lines, and a stronger gathering area.',
     href: '/services#outdoor-living-and-hardscape',
     railCaption: 'Layered patio space with cleaner flow.',
+    serviceInterest: 'Patios and hardscape',
+    location: 'Richmond-area backyard',
+    timeframe: 'Multi-day upgrade',
+    workPerformed: 'Terraced patio layout, fire-feature zone, and circulation cleanup.',
+    scopeCost: '$$$$',
   },
   {
     src: '/work/hardscape2.png',
@@ -26,6 +36,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Hardscape, lighting, and planting working together in one outdoor area.',
     href: '/services#outdoor-living-and-hardscape',
     railCaption: 'Lighting, hardscape, and planting working together cleanly.',
+    serviceInterest: 'Patios and hardscape',
+    location: 'Central Virginia backyard',
+    timeframe: 'Two-phase install',
+    workPerformed: 'Patio finish work, lighting, and planted edge detailing.',
+    scopeCost: '$$$$',
   },
   {
     src: '/work/small-backyard-lighting.png',
@@ -35,6 +50,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'A smaller patio area with cleaner edges, lighting, and more usable seating.',
     href: '/services#curb-appeal',
     railCaption: 'Compact patio area with lighting and sharper edges.',
+    serviceInterest: 'Curb appeal',
+    location: 'Richmond-side yard',
+    timeframe: '1-2 visit refresh',
+    workPerformed: 'Patio cleanup, lighting accents, and edge refinement.',
+    scopeCost: '$$$',
   },
   {
     src: '/work/mulch-and-edgework1.png',
@@ -44,6 +64,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Fresh bed lines, cleaner edging, and a sharper lawn frame.',
     href: '/services#landscape-care',
     railCaption: 'Fresh edging and cleaner lawn framing.',
+    serviceInterest: 'Landscape care',
+    location: 'Residential backyard',
+    timeframe: 'Single service visit',
+    workPerformed: 'Bed cleanup, lawn edging, and presentation reset.',
+    scopeCost: '$$',
   },
   {
     src: '/work/commercial-lines1.png',
@@ -53,6 +78,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Fresh mulch, clean bed lines, and a sharper commercial frontage.',
     href: '/services#property-support-and-seasonal-care',
     railCaption: 'Commercial frontage sharpened with mulch and clean lines.',
+    serviceInterest: 'Property support and seasonal care',
+    location: 'Commercial frontage',
+    timeframe: 'Recurring seasonal refresh',
+    workPerformed: 'Mulch reset, striping, and bed-line cleanup.',
+    scopeCost: '$$$',
   },
   {
     src: '/work/commercial-mulchwork1.png',
@@ -62,6 +92,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Fresh mulch, cleaner edges, and a more intentional entry approach.',
     href: '/services#curb-appeal',
     railCaption: 'Entry cleaned up with mulch and sharper edges.',
+    serviceInterest: 'Curb appeal',
+    location: 'Commercial front entry',
+    timeframe: 'Single refresh visit',
+    workPerformed: 'Mulch refresh, walkway edge cleanup, and planting polish.',
+    scopeCost: '$$',
   },
   {
     src: '/work/lines1.png',
@@ -71,6 +106,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Cleaner edges and a more intentional front-lawn presentation.',
     href: '/services#landscape-care',
     railCaption: 'Cleaner edges and a sharper front-lawn presentation.',
+    serviceInterest: 'Landscape care',
+    location: 'Residential front lawn',
+    timeframe: 'Single mowing visit',
+    workPerformed: 'Stripe work, edging, and front-lawn cleanup.',
+    scopeCost: '$',
   },
   {
     src: '/work/commercial-edgework1.png',
@@ -80,6 +120,11 @@ export const workPhotos: WorkPhoto[] = [
     caption: 'Cleaner edges, tidier surfaces, and a better-kept entry route.',
     href: '/services#property-support-and-seasonal-care',
     railCaption: 'Edgework and cleanup tightened along the approach.',
+    serviceInterest: 'Property support and seasonal care',
+    location: 'Commercial entry route',
+    timeframe: 'Turnover-style cleanup',
+    workPerformed: 'Walkway cleanup, edgework, and surface presentation reset.',
+    scopeCost: '$$',
   },
 ];
 
@@ -109,6 +154,11 @@ export const serviceCategoryPhotos = {
     eyebrow: 'Pressure Washing',
     caption: 'Cleaner surfaces and sharper edges around the approach.',
     href: '/services#wash-and-restore',
+    serviceInterest: 'Pressure washing',
+    location: 'Commercial approach',
+    timeframe: 'Single wash visit',
+    workPerformed: 'Surface washing, edge cleanup, and approach detailing.',
+    scopeCost: '$$',
   },
   'curb-appeal': workPhotos[5],
   'outdoor-living-and-hardscape': workPhotos[0],
@@ -127,6 +177,11 @@ export const serviceCategoryWheels = {
       caption: 'Clean stripes and maintained edges across a larger lawn.',
       href: '/services#landscape-care',
       railCaption: 'Clean stripes and maintained edges across a larger lawn.',
+      serviceInterest: 'Landscape care',
+      location: 'Large residential lawn',
+      timeframe: 'Recurring route visit',
+      workPerformed: 'Stripe work, mowing discipline, and edge maintenance.',
+      scopeCost: '$$',
     },
   ],
   'wash-and-restore': [
@@ -139,6 +194,11 @@ export const serviceCategoryWheels = {
       caption: 'Cleaner hard surfaces and a tidier entry approach.',
       href: '/services#wash-and-restore',
       railCaption: 'Exterior details cleaned up along the entry.',
+      serviceInterest: 'Pressure washing',
+      location: 'Commercial entry',
+      timeframe: 'Single wash visit',
+      workPerformed: 'Hard-surface cleanup, edge reset, and entry washing.',
+      scopeCost: '$$',
     },
     {
       src: '/work/mulch-and-edgework2.png',
@@ -148,6 +208,11 @@ export const serviceCategoryWheels = {
       caption: 'Cleaner edges and sharper hardscape lines around the beds.',
       href: '/services#wash-and-restore',
       railCaption: 'Cleaner edges and sharper hardscape lines.',
+      serviceInterest: 'Pressure washing',
+      location: 'Garden bed perimeter',
+      timeframe: '1-2 visit cleanup',
+      workPerformed: 'Surface cleanup, edging, and hardscape-line reset.',
+      scopeCost: '$$',
     },
   ],
   'curb-appeal': [
@@ -161,6 +226,11 @@ export const serviceCategoryWheels = {
       caption: 'Fresh mulch, cleaner planting lines, and a sharper front approach.',
       href: '/services#curb-appeal',
       railCaption: 'Mulch and entry lines brought back into shape.',
+      serviceInterest: 'Curb appeal',
+      location: 'Commercial front approach',
+      timeframe: 'Single refresh visit',
+      workPerformed: 'Mulch refresh, planting-line cleanup, and entry polish.',
+      scopeCost: '$$',
     },
   ],
   'outdoor-living-and-hardscape': [
@@ -174,6 +244,11 @@ export const serviceCategoryWheels = {
       caption: 'Hardscape, lighting, and planted edges working together more cleanly.',
       href: '/services#outdoor-living-and-hardscape',
       railCaption: 'Hardscape and lighting working together more cleanly.',
+      serviceInterest: 'Patios and hardscape',
+      location: 'Backyard seating area',
+      timeframe: 'Multi-day finish phase',
+      workPerformed: 'Seating-zone hardscape, lighting, and planted-edge detailing.',
+      scopeCost: '$$$',
     },
   ],
   'property-support-and-seasonal-care': [
@@ -187,6 +262,11 @@ export const serviceCategoryWheels = {
       caption: 'Steady mowing lines and clean frontage that keep the site looking handled.',
       href: '/services#property-support-and-seasonal-care',
       railCaption: 'Steady upkeep that keeps the site looking handled.',
+      serviceInterest: 'Property support and seasonal care',
+      location: 'Commercial grounds',
+      timeframe: 'Recurring maintenance cycle',
+      workPerformed: 'Route mowing, frontage cleanup, and site presentation upkeep.',
+      scopeCost: '$$',
     },
   ],
 } as const;

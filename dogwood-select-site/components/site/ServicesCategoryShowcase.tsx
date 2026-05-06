@@ -33,6 +33,14 @@ export default function ServicesCategoryShowcase() {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-5">
+                  <Link
+                    href={`/book-consultation?service=${encodeURIComponent(category.requestService)}`}
+                    className="button-secondary services-inline-action"
+                  >
+                    Get this service
+                  </Link>
+                </div>
               </div>
 
               <div className="services-feature-visual">

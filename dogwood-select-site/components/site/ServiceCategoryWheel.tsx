@@ -1,19 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import type { WorkPhoto } from '@/lib/workPhotos';
 
 export default function ServiceCategoryWheel({
   photos,
   label,
+  actionLabel,
+  actionPlacement = 'none',
+  showDetails = false,
 }: {
   photos: readonly WorkPhoto[];
   label: string;
+  actionLabel?: string;
+  actionPlacement?: 'none' | 'photo';
+  showDetails?: boolean;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activePhoto = photos[activeIndex] ?? photos[0];
+  const actionHref = `/book-consultation?service=${encodeURIComponent(
+    activePhoto.serviceInterest ?? label
+  )}`;
 
   const goToIndex = (index: number) => {
     const length = photos.length;
@@ -31,6 +41,11 @@ export default function ServiceCategoryWheel({
           loading="lazy"
           decoding="async"
         />
+        {actionPlacement === 'photo' && actionLabel ? (
+          <Link href={actionHref} className="services-wheel-photo-action">
+            {actionLabel}
+          </Link>
+        ) : null}
         <div className="photo-overlay services-wheel-overlay">
           <p className="photo-kicker">{activePhoto.eyebrow}</p>
           <h3>{activePhoto.title}</h3>
@@ -38,6 +53,27 @@ export default function ServiceCategoryWheel({
       </div>
 
       <p className="photo-copy mt-4">{activePhoto.caption}</p>
+
+      {showDetails ? (
+        <div className="services-wheel-meta">
+          <div className="services-wheel-meta-card">
+            <span>Location</span>
+            <p>{activePhoto.location ?? 'Richmond / Central Virginia'}</p>
+          </div>
+          <div className="services-wheel-meta-card">
+            <span>Timeframe</span>
+            <p>{activePhoto.timeframe ?? 'Scope dependent'}</p>
+          </div>
+          <div className="services-wheel-meta-card">
+            <span>Work performed</span>
+            <p>{activePhoto.workPerformed ?? activePhoto.caption}</p>
+          </div>
+          <div className="services-wheel-meta-card">
+            <span>Scope cost</span>
+            <p>{activePhoto.scopeCost ?? '$$'}</p>
+          </div>
+        </div>
+      ) : null}
 
       <div className="services-wheel-controls" aria-label={`${label} photo wheel controls`}>
         <button

@@ -1,10 +1,47 @@
 /* eslint-disable @next/next/no-img-element */
 import { featuredJobStories } from '@/lib/workPhotos';
 
-export default function FeaturedJobStories() {
+export default function FeaturedJobStories({
+  limit,
+  compact = false,
+}: {
+  limit?: number;
+  compact?: boolean;
+}) {
+  const jobs = typeof limit === 'number' ? featuredJobStories.slice(0, limit) : featuredJobStories;
+
+  if (compact) {
+    return (
+      <div className="featured-jobs-grid featured-jobs-grid-compact">
+        {jobs.map((job) => (
+          <article key={job.title} className="services-feature-card featured-jobs-card">
+            <div className="photo-frame featured-jobs-frame">
+              <img
+                src={job.photo.src}
+                alt={job.photo.alt}
+                className="photo-image absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="photo-overlay">
+                <p className="photo-kicker">{job.photo.eyebrow}</p>
+                <h3>{job.photo.title}</h3>
+              </div>
+            </div>
+            <div className="featured-jobs-copy">
+              <h3 className="font-display text-[1.5rem] leading-tight text-ink-strong">{job.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-ink-soft">{job.body}</p>
+              <p className="mt-3 text-sm leading-7 text-ink-soft">{job.photo.caption}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-6">
-      {featuredJobStories.map((job, index) => {
+      {jobs.map((job, index) => {
         const reverse = index % 2 === 1;
 
         return (
