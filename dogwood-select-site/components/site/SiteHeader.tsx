@@ -130,30 +130,32 @@ export default function SiteHeader() {
                       </button>
                     </div>
 
-                    <div
-                      className={`nav-dropdown-panel ${isMobile ? 'nav-dropdown-panel-mobile' : ''}`}
-                      onMouseEnter={isMobile ? undefined : openServices}
-                      onMouseLeave={isMobile ? undefined : closeServicesSoon}
-                    >
-                      <div className="nav-dropdown-grid">
-                        {serviceCategories.map((category) => (
-                          <Link
-                            key={category.id}
-                            href={`/services#${category.id}`}
-                            className="nav-dropdown-link"
-                            onClick={() => setServicesOpen(false)}
-                          >
-                            <span className="nav-dropdown-icon-wrap">
-                              <ServiceCategoryIcon name={category.icon} />
-                            </span>
-                            <span className="nav-dropdown-text">
-                              <span className="nav-dropdown-title">{category.navTitle}</span>
-                              <span className="nav-dropdown-copy">{category.navCopy}</span>
-                            </span>
-                          </Link>
-                        ))}
+                    {!isMobile ? (
+                      <div
+                        className="nav-dropdown-panel"
+                        onMouseEnter={openServices}
+                        onMouseLeave={closeServicesSoon}
+                      >
+                        <div className="nav-dropdown-grid">
+                          {serviceCategories.map((category) => (
+                            <Link
+                              key={category.id}
+                              href={`/services#${category.id}`}
+                              className="nav-dropdown-link"
+                              onClick={() => setServicesOpen(false)}
+                            >
+                              <span className="nav-dropdown-icon-wrap">
+                                <ServiceCategoryIcon name={category.icon} />
+                              </span>
+                              <span className="nav-dropdown-text">
+                                <span className="nav-dropdown-title">{category.navTitle}</span>
+                                <span className="nav-dropdown-copy">{category.navCopy}</span>
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                 );
               }
@@ -170,6 +172,29 @@ export default function SiteHeader() {
               );
             })}
           </nav>
+
+          {isMobile && servicesOpen ? (
+            <div className="nav-dropdown-panel-mobile">
+              <div className="nav-dropdown-grid">
+                {serviceCategories.map((category) => (
+                  <Link
+                    key={category.id}
+                    href={`/services#${category.id}`}
+                    className="nav-dropdown-link"
+                    onClick={() => setServicesOpen(false)}
+                  >
+                    <span className="nav-dropdown-icon-wrap">
+                      <ServiceCategoryIcon name={category.icon} />
+                    </span>
+                    <span className="nav-dropdown-text">
+                      <span className="nav-dropdown-title">{category.navTitle}</span>
+                      <span className="nav-dropdown-copy">{category.navCopy}</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           {!isMobile ? (
             <Link href="/book-consultation" className="button-primary header-cta">

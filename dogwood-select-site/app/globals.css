@@ -1932,11 +1932,15 @@ textarea {
   }
 
   .nav-dropdown-panel-mobile {
-    position: absolute;
-    top: calc(100% + 0.35rem);
-    left: 0;
-    right: 0;
-    width: auto;
+    position: relative;
+    width: 100%;
+    margin-top: 0.1rem;
+    padding: 0.55rem;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: rgba(255, 252, 248, 0.98);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
     max-height: min(56vh, 420px);
     overflow-y: auto;
     z-index: 120;
