@@ -32,11 +32,11 @@ export default function BookConsultationPage({
               choose the timing that makes sense.
             </p>
 
-            <div className="booking-intro-shell mt-8">
+            <div className="booking-intro-shell mt-6">
               <div className="booking-intro-grid">
                 <article className="service-card">
                   <p className="eyebrow">What To Have Ready</p>
-                  <p className="text-base leading-8 text-ink-soft">
+                  <p className="text-sm leading-7 text-ink-soft">
                     A rough sense of the work, a few photos if you have them, and the first date
                     that would make the schedule easier on your side.
                   </p>
@@ -54,7 +54,7 @@ export default function BookConsultationPage({
                 </article>
                 <article className="service-card">
                   <p className="eyebrow">What Happens Next</p>
-                  <p className="text-base leading-8 text-ink-soft">
+                  <p className="text-sm leading-7 text-ink-soft">
                     We confirm by email right away, then follow up during business hours with a call
                     that actually moves the project forward.
                   </p>

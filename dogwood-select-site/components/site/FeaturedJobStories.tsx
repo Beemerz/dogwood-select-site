@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link';
 import { featuredJobStories } from '@/lib/workPhotos';
 
 export default function FeaturedJobStories({
@@ -64,6 +65,12 @@ export default function FeaturedJobStories({
                     loading="lazy"
                     decoding="async"
                   />
+                  <Link
+                    href={`/book-consultation?service=${encodeURIComponent(job.photo.serviceInterest ?? 'Custom project')}`}
+                    className="services-wheel-photo-action"
+                  >
+                    Get this service
+                  </Link>
                   <div className="photo-overlay">
                     <p className="photo-kicker">{job.photo.eyebrow}</p>
                     <h3>{job.photo.title}</h3>

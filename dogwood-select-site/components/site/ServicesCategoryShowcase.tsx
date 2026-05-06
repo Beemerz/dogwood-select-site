@@ -23,17 +23,10 @@ export default function ServicesCategoryShowcase() {
                   {category.title}
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-8 text-ink-soft">{category.intro}</p>
-                <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--accent-hot)]">
-                  Commonly includes
-                </p>
-                <ul className="mt-4 grid gap-3 md:grid-cols-2">
-                  {category.items.map((item) => (
-                    <li key={item} className="services-feature-pill">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5">
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--accent-hot)]">
+                    Commonly includes
+                  </p>
                   <Link
                     href={`/book-consultation?service=${encodeURIComponent(category.requestService)}`}
                     className="button-secondary services-inline-action"
@@ -41,6 +34,13 @@ export default function ServicesCategoryShowcase() {
                     Get this service
                   </Link>
                 </div>
+                <ul className="mt-4 grid gap-2 services-feature-pill-grid">
+                  {category.items.map((item) => (
+                    <li key={item} className="services-feature-pill">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="services-feature-visual">

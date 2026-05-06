@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import FeaturedJobStories from '@/components/site/FeaturedJobStories';
 import HomeQuickStartForm from '@/components/site/HomeQuickStartForm';
 import HomeStoryExperience from '@/components/site/HomeStoryExperience';
 import ServiceCategoryCards from '@/components/site/ServiceCategoryCards';
@@ -60,9 +59,9 @@ export default function HomePage() {
               The strongest properties are the ones that never look like they are catching up.
             </h2>
             <p className="story-body">
-              This is where disciplined upkeep turns into visible advantage: cleaner entries,
-              better hardscape presence, stronger backyard flow, and curb appeal that quietly
-              outclasses the house next door.
+              Dogwood Select is an outdoor care and renovation company built with Virginia habits
+              in mind: properties that should look welcoming, work hard through the seasons, and
+              feel like they belong to people who take pride in where they live.
             </p>
             <div className="mt-8">
               <Link href="/the-works" className="button-primary">
@@ -70,7 +69,18 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="mt-8 homepage-works-proof">
-              <FeaturedJobStories limit={2} compact />
+              <article className="service-card homepage-company-intro">
+                <p className="text-[1.04rem] leading-8 text-ink-soft md:text-[1.08rem]">
+                  Around Richmond and Central Virginia, the best outdoor spaces are the ones that
+                  feel settled into the landscape instead of forced onto it. We take that
+                  seriously, whether the work is a lawn that needs steadier care, an entry that
+                  needs to look more welcoming, or a backyard that should finally feel worth using.
+                </p>
+                <p className="text-[1.04rem] leading-8 text-ink-soft md:text-[1.08rem]">
+                  Our goal is simple: cleaner presentation, stronger upkeep, and outdoor work that
+                  feels rooted in the way Virginia properties are actually lived in.
+                </p>
+              </article>
             </div>
           </section>
         </HomeStoryExperience>
