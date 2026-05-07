@@ -57,6 +57,19 @@ function renderTextFields(fields: NotificationField[]) {
     .join('\n');
 }
 
+function htmlWithLineBreaks(value: string) {
+  return escapeHtml(value).replaceAll('\n', '<br/>');
+}
+
+type CustomerConfirmationOptions = {
+  email: string;
+  name?: string;
+  subject: string;
+  heading: string;
+  intro: string;
+  details: string;
+};
+
 export async function sendNotification({ subject, previewText, fields }: NotificationOptions) {
   const toEmail =
     process.env.CONTACT_ALERT_EMAIL?.trim() ||
@@ -113,7 +126,14 @@ export async function sendNotification({ subject, previewText, fields }: Notific
   }
 }
 
-export async function sendCustomerConfirmation(name: string, email: string) {
+async function sendCustomerConfirmationEmail({
+  email,
+  name,
+  subject,
+  heading,
+  intro,
+  details,
+}: CustomerConfirmationOptions) {
   if (!email || !resend) {
     console.warn('Customer confirmation email skipped.', {
       hasApiKey: Boolean(apiKey),
@@ -126,21 +146,22 @@ export async function sendCustomerConfirmation(name: string, email: string) {
     const result = await resend.emails.send({
       from: fromEmail,
       to: [email],
-      subject: 'Dogwood Select received your consultation request',
+      subject,
       replyTo: replyToEmail ? [replyToEmail] : undefined,
-      text: `Hi ${name || 'there'},\n\nWe received your consultation request and sent it to the team.\n\nYou can expect a confirmation email right away and a call within one hour during business hours.\n\nTalk soon,\nDogwood Select`,
+      text: `Hi ${name || 'there'},\n\n${intro}\n\n${details}\n\nIf you have photos, access notes, or anything specific you want us to see, reply directly to this email.\n\nTalk soon,\nBrandon\nDogwood Select`,
       html: `
         <div style="margin:0;padding:24px;background:#fbf6f0;font-family:Arial,sans-serif;">
           <div style="max-width:640px;margin:0 auto;background:#fffdf9;border:1px solid #ece6de;border-radius:18px;overflow:hidden;">
             <div style="padding:22px 24px;background:linear-gradient(135deg,#fff8f1,#f7efe6);border-bottom:1px solid #ece6de;">
               <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#ef8b77;font-weight:700;">Dogwood Select</p>
-              <h1 style="margin:0;font-size:24px;line-height:1.2;color:#161617;">We received your consultation request</h1>
+              <h1 style="margin:0;font-size:24px;line-height:1.2;color:#161617;">${escapeHtml(heading)}</h1>
             </div>
             <div style="padding:22px 24px;color:#38383d;line-height:1.7;">
               <p>Hi ${escapeHtml(name || 'there')},</p>
-              <p>We received your consultation request and sent it to the team.</p>
-              <p>You can expect a confirmation email right away and a call within one hour during business hours.</p>
-              <p>Talk soon,<br/>Dogwood Select</p>
+              <p>${htmlWithLineBreaks(intro)}</p>
+              <p>${htmlWithLineBreaks(details)}</p>
+              <p>If you have photos, access notes, or anything specific you want us to see, reply directly to this email.</p>
+              <p>Talk soon,<br/>Brandon<br/>Dogwood Select</p>
             </div>
           </div>
         </div>
@@ -160,4 +181,52 @@ export async function sendCustomerConfirmation(name: string, email: string) {
     });
     return { ok: false as const, skipped: false as const, error };
   }
+}
+
+export async function sendCustomerConfirmation(name: string, email: string) {
+  return sendCustomerConfirmationEmail({
+    email,
+    name,
+    subject: 'Dogwood Select received your consultation request',
+    heading: 'Your consultation request has been received',
+    intro: 'Thanks for reaching out to Dogwood Select.',
+    details:
+      'Your consultation request has been received, and we’re reviewing the details so we can get a clear feel for the property and the work needed.\n\nWe focus on sharp curb appeal, clean communication, and exterior work that makes a property feel properly cared for. You can expect a follow-up call within one hour during business hours.',
+  });
+}
+
+export async function sendBookingConfirmation(name: string, email: string) {
+  return sendCustomerConfirmationEmail({
+    email,
+    name,
+    subject: 'Dogwood Select received your booking request',
+    heading: 'Your booking request has been received',
+    intro: 'Thanks for reaching out to Dogwood Select.',
+    details:
+      'Your booking request has been received, and we’re reviewing the preferred timing and service details so we can get a clear feel for the property and the work needed.\n\nWe focus on sharp curb appeal, clean communication, and exterior work that makes a property feel properly cared for. You can expect a follow-up call within one hour during business hours.',
+  });
+}
+
+export async function sendContactConfirmation(name: string, email: string) {
+  return sendCustomerConfirmationEmail({
+    email,
+    name,
+    subject: 'Dogwood Select received your message',
+    heading: 'Your message has been received',
+    intro: 'Thanks for reaching out to Dogwood Select.',
+    details:
+      'Your message has been received, and we’re reviewing the details so we can get a clear feel for the property and the kind of help you need.\n\nWe focus on sharp curb appeal, clean communication, and exterior work that makes a property feel properly cared for. You can expect a follow-up call within one hour during business hours.',
+  });
+}
+
+export async function sendReferralConfirmation(name: string, email: string) {
+  return sendCustomerConfirmationEmail({
+    email,
+    name,
+    subject: 'Dogwood Select received your referral',
+    heading: 'Your referral has been received',
+    intro: 'Thanks for reaching out to Dogwood Select.',
+    details:
+      'Your referral has been received, and we’re reviewing the details so we can get a clear feel for the property and the service needs being passed along.\n\nWe focus on sharp curb appeal, clean communication, and exterior work that makes a property feel properly cared for. You can expect a follow-up from us during business hours.',
+  });
 }

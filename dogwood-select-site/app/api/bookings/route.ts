@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { sendNotification } from '@/lib/email';
+import { sendBookingConfirmation, sendNotification } from '@/lib/email';
 import { asCleanString, asStringArray, combineNotes, parseRequestBody } from '@/lib/submissions';
 
 export const runtime = 'nodejs';
@@ -77,6 +77,7 @@ export async function POST(request: Request) {
         { label: 'Notes', value: notes || null },
       ],
     });
+    await sendBookingConfirmation(name, email);
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', bookingId: booking.id });
   } catch (error) {

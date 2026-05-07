@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { sendNotification } from '@/lib/email';
+import { sendNotification, sendReferralConfirmation } from '@/lib/email';
 import { asCleanString, combineNotes, parseRequestBody } from '@/lib/submissions';
 
 export const runtime = 'nodejs';
@@ -69,6 +69,9 @@ export async function POST(request: Request) {
         { label: 'Notes', value: notes || null },
       ],
     });
+    if (referrerContact.includes('@')) {
+      await sendReferralConfirmation(referrerName, referrerContact);
+    }
 
     return NextResponse.json({ ok: true, message: 'Submission saved successfully.', referralId: referral.id });
   } catch (error) {
